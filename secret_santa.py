@@ -1,6 +1,6 @@
 #!/usr/bin/python3.4
 #
-#	A. Gnias
+#	Andy
 #
 #	secret_santa.py - Informs Secret Santa participants of their Secret Santa
 #	via email, making it blind from the person running the code.

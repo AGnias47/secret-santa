@@ -24,7 +24,7 @@ the gift exchange on {}".format(gifter, recipient, exchange_date))
 def test_message() :
 	"""Generic message to test everyone's emails."""
 	return "Hello!\n\nThis is a test of the Secret Santa assignment system.\
-To confirm that you are able to receive this email, please let Andy Gnias \
+To confirm that you are able to receive this email, please let Andy \
 know that you have received this message by replying directly to this \
 email."
 

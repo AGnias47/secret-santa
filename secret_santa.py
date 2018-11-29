@@ -1,14 +1,14 @@
 #!/usr/bin/python3.4
 #
-#	Andy
+#   Andy
 #
-#	secret_santa.py - Informs Secret Santa participants of their Secret Santa
-#	via email, making it blind from the person running the code.
+#   secret_santa.py - Informs Secret Santa participants of their Secret Santa
+#   via email, making it blind from the person running the code.
 #
-#	11/17/2017
+#   11/29/2018  
 #
-#  Linux raspberrypi 4.1.7+
-#	Python 3.4.2
+#   Linux raspberrypi 4.1.7+
+#   Python 3.4.2
 #
 
 import sys
@@ -72,16 +72,16 @@ def main() :
 	from_password = sys.argv[1]
 
 	d = dict() #hash with key=names value=email
-	d["Laura"] = "AGnias47@gmail.com"
-	d["Don"] = "AGnias47@gmail.com"
-	d["Josh"] = "AGnias47@gmail.com"
-	d["Travis"] = "AGnias47@gmail.com"
-	d["Mark"] = "AGnias47@gmail.com"
-	d["Nick"] = "AGnias47@gmail.com"
-	d["Tim"] = "AGnias47@gmail.com"
-	d["Jackie"] = "AGnias47@gmail.com"
-	d["Alice"] = "AGnias47@gmail.com"
-	d["Julie"] = "AGnias47@gmail.com"
+	d["Laura"] = "lauraallan111@gmail.com"
+	d["Don"] = "@gmail.com"
+	d["Josh"] = "josh.dienstman@gmail.com"
+	d["Travis"] = "travisscott1@gmail.com"
+	d["Mark"] = "mark@markkoh.net"
+	d["Nick"] = "nicholas.a.coyle@gmail.com"
+	d["Tim"] = "timmyhoang2011@gmail.com"
+	d["Jackie"] = "jackiemaynes@gmail.com"
+	d["Alice"] = "alice.inouye@gmail.com"
+	d["Julie"] = "jspeer11@gmail.com"
 	d["Andy"] = "AGnias47@gmail.com"
 
 	names = list(d.keys())

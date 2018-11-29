@@ -56,33 +56,23 @@ def check_conditions(nlist) :
 	    gifter = i+1
 	    if gifter == len(nlist) :
 	    	gifter = 0
-	    if nlist[gifter] == "Travis" and nlist[recp] == "Jackie" or \
-	    nlist[gifter] == "Jackie" and nlist[recp] == "Travis" or \
-	    nlist[gifter] == "Andy" and nlist[recp] == "Laura" or \
-	    nlist[gifter] == "Laura" and nlist[recp] == "Andy" :
+	    if nlist[gifter] == "Santa" and nlist[recp] == "Mrs.K" or \
+	    nlist[gifter] == "Mrs.K" and nlist[recp] == "Santa" or \
+	    nlist[gifter] == "Joseph" and nlist[recp] == "Mary" or \
+	    nlist[gifter] == "Mary" and nlist[recp] == "Joseph" :
                 return False
 	return True
 
 def main() :
 	argc = len(sys.argv)
-	from_address = "AGnias47@gmail.com"
+	from_address = "Sender Email@gmail.com"
 	if argc == 1 :
 		print("Requires {} email password as argument".format(from_address))
 		sys.exit()
 	from_password = sys.argv[1]
 
 	d = dict() #hash with key=names value=email
-	d["Laura"] = "lauraallan111@gmail.com"
-	d["Don"] = "Dbnthan27@gmail.com"
-	d["Josh"] = "josh.dienstman@gmail.com"
-	d["Travis"] = "travisscott1@gmail.com"
-	d["Mark"] = "mark@markkoh.net"
-	d["Nick"] = "nicholas.a.coyle@gmail.com"
-	d["Tim"] = "timmyhoang2011@gmail.com"
-	d["Jackie"] = "jackiemaynes@gmail.com"
-	d["Alice"] = "alice.inouye@gmail.com"
-	d["Julie"] = "jspeer11@gmail.com"
-	d["Andy"] = "AGnias47@gmail.com"
+	d["Santa"] = "GimmeDemCookies42069@NorthPole.com"
 
 	names = list(d.keys())
 	list_sorted = False

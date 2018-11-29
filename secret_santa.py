@@ -17,7 +17,7 @@ from random import shuffle
 
 def compose_message(gifter, recipient) :
 	"""Composes body of Secret Santa email"""
-	exchange_date = "December 20, 2017"
+	exchange_date = "December 21, 2018"
 	return ("{}, \n\nYou have been assigned to be {}'s Secret Santa! Please purchase a gift for them before \
 the gift exchange on {}".format(gifter, recipient, exchange_date))
 
@@ -46,26 +46,37 @@ def check_conditions(nlist) :
 	"""Prevents people who shouldn't get each other from getting each other
 	i.e. couples."""
 	for i in range(len(nlist)) :
-		recp = i
-		gifter = i+1
-		if gifter == len(nlist) :
-			gifter = 0
-		if nlist[gifter] == "Secret" and nlist[recp] == "Santa" or \
-		nlist[gifter] == "Santa" and nlist[recp] == "Secret" :
-			return False
+	    recp = i
+	    gifter = i+1
+	    if gifter == len(nlist) :
+	    	gifter = 0
+	    if nlist[gifter] == "Travis" and nlist[recp] == "Jackie" or \
+	    nlist[gifter] == "Jackie" and nlist[recp] == "Travis" or \
+	    nlist[gifter] == "Andy" and nlist[recp] == "Laura" or \
+	    nlist[gifter] == "Laura" and nlist[recp] == "Andy" :
+                return False
 	return True
 
 def main() :
 	argc = len(sys.argv)
-	from_address = "________@gmail.com"
+	from_address = "AGnias47@gmail.com"
 	if argc == 1 :
 		print("Requires {} email password as argument".format(from_address))
 		sys.exit()
 	from_password = sys.argv[1]
 
 	d = dict() #hash with key=names value=email
-	d["Santa"] = "GimmeDemCookies69420@gmail.com"
-	#continue in same format for other participants
+	d["Laura"] = "andygnias@gmail.com"
+	d["Don"] = "andygnias@gmail.com"
+	d["Josh"] = "andygnias@gmail.com"
+	d["Travis"] = "andygnias@gmail.com"
+	d["Mark"] = "andygnias@gmail.com"
+	d["Nick"] = "andygnias@gmail.com"
+	d["Tim"] = "andygnias@gmail.com"
+	d["Jackie"] = "andygnias@gmail.com"
+	d["Alice"] = "andygnias@gmail.com"
+	d["Julie"] = "andygnias@gmail.com"
+	d["Andy"] = "andygnias@gmail.com"
 
 	names = list(d.keys())
 	list_sorted = False

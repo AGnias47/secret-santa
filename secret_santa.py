@@ -73,7 +73,7 @@ def main() :
 
 	d = dict() #hash with key=names value=email
 	d["Laura"] = "lauraallan111@gmail.com"
-	d["Don"] = "@gmail.com"
+	d["Don"] = "Dbnthan27@gmail.com"
 	d["Josh"] = "josh.dienstman@gmail.com"
 	d["Travis"] = "travisscott1@gmail.com"
 	d["Mark"] = "mark@markkoh.net"

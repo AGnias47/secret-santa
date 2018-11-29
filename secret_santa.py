@@ -16,17 +16,23 @@ import smtplib
 from random import shuffle
 
 def compose_message(gifter, recipient) :
-	"""Composes body of Secret Santa email"""
-	exchange_date = "December 21, 2018"
-	return ("{}, \n\nYou have been assigned to be {}'s Secret Santa! Please purchase a gift for them before \
+    """Composes body of Secret Santa email"""
+    exchange_date = "December 21, 2018"
+    subject = "Secret Santa 2018"
+    body = ("{}, \n\nYou have been assigned to be {}'s Secret Santa! Please purchase a gift for them before \
 the gift exchange on {}".format(gifter, recipient, exchange_date))
+    message = 'Subject: {}\n\n{}'.format(subject, body)
+    return message
 
 def test_message() :
-	"""Generic message to test everyone's emails."""
-	return "Hello!\n\nThis is a test of the Secret Santa assignment system.\
+    """Generic message to test everyone's emails."""
+    subject = "Secret Santa 2018"
+    body = "Hello!\n\nThis is a test of the Secret Santa assignment system.\
 To confirm that you are able to receive this email, please let Andy \
 know that you have received this message by replying directly to this \
 email."
+    message = 'Subject: {}\n\n{}'.format(subject, body)
+    return message
 
 def send_email(from_address,from_password,gifter_email,gifter,recipient) :
 	"""Sends Secret Santa email"""
@@ -66,17 +72,17 @@ def main() :
 	from_password = sys.argv[1]
 
 	d = dict() #hash with key=names value=email
-	d["Laura"] = "andygnias@gmail.com"
-	d["Don"] = "andygnias@gmail.com"
-	d["Josh"] = "andygnias@gmail.com"
-	d["Travis"] = "andygnias@gmail.com"
-	d["Mark"] = "andygnias@gmail.com"
-	d["Nick"] = "andygnias@gmail.com"
-	d["Tim"] = "andygnias@gmail.com"
-	d["Jackie"] = "andygnias@gmail.com"
-	d["Alice"] = "andygnias@gmail.com"
-	d["Julie"] = "andygnias@gmail.com"
-	d["Andy"] = "andygnias@gmail.com"
+	d["Laura"] = "AGnias47@gmail.com"
+	d["Don"] = "AGnias47@gmail.com"
+	d["Josh"] = "AGnias47@gmail.com"
+	d["Travis"] = "AGnias47@gmail.com"
+	d["Mark"] = "AGnias47@gmail.com"
+	d["Nick"] = "AGnias47@gmail.com"
+	d["Tim"] = "AGnias47@gmail.com"
+	d["Jackie"] = "AGnias47@gmail.com"
+	d["Alice"] = "AGnias47@gmail.com"
+	d["Julie"] = "AGnias47@gmail.com"
+	d["Andy"] = "AGnias47@gmail.com"
 
 	names = list(d.keys())
 	list_sorted = False

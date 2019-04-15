@@ -120,7 +120,6 @@ def main() :
 	email,password,fname = process_commandline_parameters()
 	d = generate_names_dictionary(fname)
 	names = list(d.keys())
-	exit(0)
 	list_sorted = False
 	while not list_sorted : #shuffle list until it abides by conditions set
 		shuffle(names)

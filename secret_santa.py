@@ -14,6 +14,7 @@
 import sys
 import smtplib
 from random import shuffle
+import getopt
 
 def compose_message(gifter, recipient) :
     """Composes body of Secret Santa email"""
@@ -82,6 +83,26 @@ def generate_names_dictionary(fname) :
 #elements = line.rstrip().split(" ")[3:]
 
 def main() :
+	try :
+		options, arguments = getopt.getopt(sys.argv[1:], "e:p:t:", ["email=", "password=", "textfile="])
+	except getopt.GetoptError as err:
+		print(err)
+		exit(1)
+	for o, a in options :
+		if o in ("-e", "--email") :
+			email = a
+		elif o in ("-p", "--password") : 
+			password = a
+		elif o in ("-t", "--textfile") :
+			fname = a
+		else :
+			print("Unhandled option; ignoring {1}", o)
+
+	print(email, password, fname)
+	exit(0)
+
+	
+
 	argc = len(sys.argv)
 	from_address = "Sender Email@gmail.com"
 	if argc == 1 :

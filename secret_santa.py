@@ -15,6 +15,8 @@ import sys
 import smtplib
 from random import shuffle
 import getopt
+from getpass import getpass
+import pathlib
 
 def compose_message(gifter, recipient) :
     """Composes body of Secret Santa email"""
@@ -77,12 +79,12 @@ def generate_names_dictionary(fname) :
 			d[name] = email
 	f.close()
 	return d
-	
-			
 
-#elements = line.rstrip().split(" ")[3:]
-
-def main() :
+def process_commandline_parameters() :
+	"""Processes commandline parameters for dynamic use of email, password, and csv file containing 
+	names and emails. Not adaptable to other scripts in its hard-coded form.
+	Input: None (hard-coded with the function)
+	Output: email,password,fname as strings"""
 	try :
 		options, arguments = getopt.getopt(sys.argv[1:], "e:p:t:", ["email=", "password=", "textfile="])
 	except getopt.GetoptError as err:
@@ -97,28 +99,33 @@ def main() :
 			fname = a
 		else :
 			print("Unhandled option; ignoring {1}", o)
+	try : email
+	except :
+		email = input("Sender's email: ").strip()
+	try : password
+	except :
+		password = getpass("Password for sender's email: ").strip()
+	try : fname
+	except : 
+		generic_names_file = pathlib.Path("names.csv")
+		if generic_names_file.is_file() : 
+			print("Using names.csv from cwd")
+			fname = "names.csv"
+		else :
+			fname = input("File containing names,emails : ").strip()
+	return email,password,fname
 
-	print(email, password, fname)
-	exit(0)
 
-	
-
-	argc = len(sys.argv)
-	from_address = "Sender Email@gmail.com"
-	if argc == 1 :
-		print("Requires {} email password as argument".format(from_address))
-		sys.exit()
-	from_password = sys.argv[1]
-
-	d = generate_names_dictionary("names.txt")
+def main() :
+	email,password,fname = process_commandline_parameters()
+	d = generate_names_dictionary(fname)
 	names = list(d.keys())
+	exit(0)
 	list_sorted = False
 	while not list_sorted : #shuffle list until it abides by conditions set
 		shuffle(names)
 		list_sorted = check_conditions(names)
-
 	print(names)
-	exit(0)
 
 	#first person gifts to last name in 'names list
 	gifter = names[0]

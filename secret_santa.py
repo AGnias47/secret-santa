@@ -1,13 +1,13 @@
-#!/usr/bin/python3.4
+#!/usr/bin/python3
 #
 #   Andy
 #
 #   secret_santa.py - Informs Secret Santa participants of their Secret Santa
 #   via email, making it blind from the person running the code.
 #
-#   11/29/2018  
+#   4/14/2019
 #
-#   Linux raspberrypi 4.1.7+
+#   Kubuntu 5.13.5
 #   Python 3.4.2
 #
 
@@ -63,6 +63,24 @@ def check_conditions(nlist) :
                 return False
 	return True
 
+def generate_names_dictionary(fname) :
+	"""Generates a dict of the form d[name] = email from a text file.
+	Input: text file name in cwd
+	Output: populated dictionary"""
+	d = dict()
+	with open(fname,'r') as f :
+		for line in f :
+			contents = line.strip().split(',')
+			name = contents[0].strip()
+			email = contents[1].strip()
+			d[name] = email
+	f.close()
+	return d
+	
+			
+
+#elements = line.rstrip().split(" ")[3:]
+
 def main() :
 	argc = len(sys.argv)
 	from_address = "Sender Email@gmail.com"
@@ -71,9 +89,7 @@ def main() :
 		sys.exit()
 	from_password = sys.argv[1]
 
-	d = dict() #hash with key=names value=email
-	d["Santa"] = "GimmeDemCookies42069@NorthPole.com"
-
+	d = generate_names_dictionary("names.txt")
 	names = list(d.keys())
 	list_sorted = False
 	while not list_sorted : #shuffle list until it abides by conditions set
@@ -81,6 +97,7 @@ def main() :
 		list_sorted = check_conditions(names)
 
 	print(names)
+	exit(0)
 
 	#first person gifts to last name in 'names list
 	gifter = names[0]

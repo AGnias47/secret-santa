@@ -17,6 +17,7 @@ from random import shuffle
 import getopt
 from getpass import getpass
 import pathlib
+import re
 
 def compose_message(gifter, recipient) :
     """Composes body of Secret Santa email"""
@@ -86,7 +87,7 @@ def process_commandline_parameters() :
 	Input: None (hard-coded with the function)
 	Output: email,password,fname as strings"""
 	try :
-		options, arguments = getopt.getopt(sys.argv[1:], "e:p:t:", ["email=", "password=", "textfile="])
+		options, arguments = getopt.getopt(sys.argv[1:], "e:p:t:x:", ["email=", "password=", "textfile=", "exceptions="])
 	except getopt.GetoptError as err:
 		print(err)
 		exit(1)
@@ -97,6 +98,8 @@ def process_commandline_parameters() :
 			password = a
 		elif o in ("-t", "--textfile") :
 			fname = a
+		elif o in ("-x", "--exceptions") :
+			exceptions = a
 		else :
 			print("Unhandled option; ignoring {1}", o)
 	try : email
@@ -113,7 +116,17 @@ def process_commandline_parameters() :
 			fname = "names.csv"
 		else :
 			fname = input("File containing names,emails : ").strip()
-	return email,password,fname
+	try : exceptions
+	except :
+		generic_exceptions_file = pathlib.Path("exceptions.txt")
+		if generic_exceptions_file.is_file() :
+			print("Using exceptions.txt from cwd")
+			exceptions = "exceptions.txt"
+		else :
+			confirmE = input("No exceptions file provided (-x). Would you like to use one? ").strip()
+			if re.match(r"[Yy]*",confirmE) :
+				exceptions = input("File name: ").strip()
+	return email,password,fname,exceptions
 
 
 def main() :

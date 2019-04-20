@@ -116,22 +116,47 @@ def process_commandline_parameters() :
 			fname = "names.csv"
 		else :
 			fname = input("File containing names,emails : ").strip()
-	try : exceptions
+	try : exceptions_fname
 	except :
 		generic_exceptions_file = pathlib.Path("exceptions.txt")
 		if generic_exceptions_file.is_file() :
 			print("Using exceptions.txt from cwd")
-			exceptions = "exceptions.txt"
+			exceptions_fname = "exceptions.txt"
 		else :
 			confirmE = input("No exceptions file provided (-x). Would you like to use one? ").strip()
 			if re.match(r"[Yy]*",confirmE) :
-				exceptions = input("File name: ").strip()
-	return email,password,fname,exceptions
+				exceptions_fname = input("File name: ").strip()
+	return email,password,fname,exceptions_fname
 
+def generate_exceptions_dict(fname) :
+	"""Generates a dictionary of dictionaries where each entry is a dict of the form:
+		d[Name] = List of names they can't be matched with
+	Input: file name of exceptions
+	Return Value: dictionary of dictionaries
+	"""
+	d = dict()
+	with open(fname,'r') as f :
+		for line in f :
+			contents = line.strip().split(',')
+			i = 0
+			l = list()
+			for ex in contents :
+				if i == 0 :
+					name = ex.strip()
+				else :
+					l.append(ex.strip())
+				i += 1
+			d[name] = l
+			name = contents[0].strip()
+	f.close()
+	return d
 
 def main() :
-	email,password,fname = process_commandline_parameters()
+	email,password,fname,exceptions_fname = process_commandline_parameters()
 	d = generate_names_dictionary(fname)
+	exceptions_dict = generate_exceptions_dict(exceptions_fname)
+	print(exceptions_dict)
+	exit()
 	names = list(d.keys())
 	list_sorted = False
 	while not list_sorted : #shuffle list until it abides by conditions set
@@ -143,12 +168,12 @@ def main() :
 	gifter = names[0]
 	gifter_email = d[gifter]
 	recipient = names[len(names)-1]
-	send_email(from_address,from_password,gifter_email,gifter,recipient)
+	send_email(email,password,gifter_email,gifter,recipient)
 	#everyone else gifts to the person above them in 'names' list
 	for i in range(len(names)-1) :
 		gifter = names[i+1]
 		gifter_email = d[gifter]
 		recipient = names[i]
-		send_email(from_address,from_password,gifter_email,gifter,recipient)
+		send_email(email,password,gifter_email,gifter,recipient)
 
 main()

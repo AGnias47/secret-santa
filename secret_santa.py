@@ -19,68 +19,6 @@ from getpass import getpass
 import pathlib
 import re
 
-def compose_message(gifter, recipient) :
-    """Composes body of Secret Santa email"""
-    exchange_date = "December 21, 2018"
-    subject = "Secret Santa 2018"
-    body = ("{}, \n\nYou have been assigned to be {}'s Secret Santa! Please purchase a gift for them before \
-the gift exchange on {}".format(gifter, recipient, exchange_date))
-    message = 'Subject: {}\n\n{}'.format(subject, body)
-    return message
-
-def test_message() :
-    """Generic message to test everyone's emails."""
-    subject = "Secret Santa 2018"
-    body = "Hello!\n\nThis is a test of the Secret Santa assignment system.\
-To confirm that you are able to receive this email, please let Andy \
-know that you have received this message by replying directly to this \
-email."
-    message = 'Subject: {}\n\n{}'.format(subject, body)
-    return message
-
-def send_email(from_address,from_password,gifter_email,gifter,recipient) :
-	"""Sends Secret Santa email"""
-	#message_body = test_message()
-	message_body = compose_message(gifter,recipient)
-	try:  
-		server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-		server.ehlo()
-		server.login(from_address, from_password)
-		server.sendmail(from_address, gifter_email, message_body)
-		server.close()
-		print('Email sent!')
-	except:  
-		print("Error sending email to {}".format(gifter_email))
-
-def check_conditions(nlist) :
-	"""Prevents people who shouldn't get each other from getting each other
-	i.e. couples."""
-	for i in range(len(nlist)) :
-	    recp = i
-	    gifter = i+1
-	    if gifter == len(nlist) :
-	    	gifter = 0
-	    if nlist[gifter] == "Santa" and nlist[recp] == "Mrs.K" or \
-	    nlist[gifter] == "Mrs.K" and nlist[recp] == "Santa" or \
-	    nlist[gifter] == "Joseph" and nlist[recp] == "Mary" or \
-	    nlist[gifter] == "Mary" and nlist[recp] == "Joseph" :
-                return False
-	return True
-
-def generate_names_dictionary(fname) :
-	"""Generates a dict of the form d[name] = email from a text file.
-	Input: text file name in cwd
-	Output: populated dictionary"""
-	d = dict()
-	with open(fname,'r') as f :
-		for line in f :
-			contents = line.strip().split(',')
-			name = contents[0].strip()
-			email = contents[1].strip()
-			d[name] = email
-	f.close()
-	return d
-
 def process_commandline_parameters() :
 	"""Processes commandline parameters for dynamic use of email, password, and csv file containing 
 	names and emails. Not adaptable to other scripts in its hard-coded form.
@@ -128,6 +66,20 @@ def process_commandline_parameters() :
 				exceptions_fname = input("File name: ").strip()
 	return email,password,fname,exceptions_fname
 
+def generate_names_dictionary(fname) :
+	"""Generates a dict of the form d[name] = email from a text file.
+	Input: text file name in cwd
+	Output: populated dictionary"""
+	d = dict()
+	with open(fname,'r') as f :
+		for line in f :
+			contents = line.strip().split(',')
+			name = contents[0].strip()
+			email = contents[1].strip()
+			d[name] = email
+	f.close()
+	return d
+
 def generate_exceptions_dict(fname) :
 	"""Generates a dictionary of dictionaries where each entry is a dict of the form:
 		d[Name] = List of names they can't be matched with
@@ -151,17 +103,63 @@ def generate_exceptions_dict(fname) :
 	f.close()
 	return d
 
+def check_conditions(nlist, exceptionsDict) :
+	"""Prevents people who shouldn't get each other from getting each other
+	i.e. couples."""
+	for i in range(len(nlist)) :
+		name = nlist[i]
+		if name in exceptionsDict :
+			exceptions = exceptionsDict[name]
+			if i == 0 :
+				if nlist[len(nlist)-1] in exceptions :
+					return False
+			else :
+				if nlist[i-1] in exceptions :
+					return False
+	return True
+
+def compose_message(gifter, recipient) :
+    """Composes body of Secret Santa email"""
+    exchange_date = "December 21, 2018"
+    subject = "Secret Santa 2018"
+    body = ("{}, \n\nYou have been assigned to be {}'s Secret Santa! Please purchase a gift for them before \
+the gift exchange on {}".format(gifter, recipient, exchange_date))
+    message = 'Subject: {}\n\n{}'.format(subject, body)
+    return message
+
+def test_message() :
+    """Generic message to test everyone's emails."""
+    subject = "Secret Santa 2018"
+    body = "Hello!\n\nThis is a test of the Secret Santa assignment system.\
+To confirm that you are able to receive this email, please let Andy \
+know that you have received this message by replying directly to this \
+email."
+    message = 'Subject: {}\n\n{}'.format(subject, body)
+    return message
+
+def send_email(from_address,from_password,gifter_email,gifter,recipient) :
+	"""Sends Secret Santa email"""
+	#message_body = test_message()
+	message_body = compose_message(gifter,recipient)
+	try:  
+		server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+		server.ehlo()
+		server.login(from_address, from_password)
+		server.sendmail(from_address, gifter_email, message_body)
+		server.close()
+		print('Email sent!')
+	except:  
+		print("Error sending email to {}".format(gifter_email))
+
 def main() :
 	email,password,fname,exceptions_fname = process_commandline_parameters()
 	d = generate_names_dictionary(fname)
 	exceptions_dict = generate_exceptions_dict(exceptions_fname)
-	print(exceptions_dict)
-	exit()
 	names = list(d.keys())
 	list_sorted = False
 	while not list_sorted : #shuffle list until it abides by conditions set
 		shuffle(names)
-		list_sorted = check_conditions(names)
+		list_sorted = check_conditions(names, exceptions_dict)
 	print(names)
 
 	#first person gifts to last name in 'names list

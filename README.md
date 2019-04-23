@@ -6,29 +6,27 @@ Python script to manage Secret Santa selections
 Email from which all participant emails will be sent. If not provided, will be prompted for on the command line.
 
 ### -p or --password
-Password for the provided email. If not provided, will be prompted for on the command line. Password input will be
-masked.
+Password for the provided email. If not provided, will be prompted for on the command line. Password input will be masked.
 
 ### -t or --textfile
-File containing the Secret Santa participant's names and emails in the form:
+Flat file containing the Secret Santa participant's names and emails in the form:
 
 ```
 Name,Email
 ```
 
-If not provided, will look for "names.csv" in the cwd and will use if it exists. If not, will prompt the user for a
-filename.
+If not provided, the script will look for "names.csv" in the cwd and will use if it exists. If not, will prompt the user for a filename.
 
 ### -x or --exceptions (optional parameter)
-File containing pairings which should not occur in the form:
+Flat file containing pairings which should not occur in the form:
 
 ```
-Person A, Person 1 who should not be assigned to A, Person 2 who should not be assigned to A, ..., Person n who should
-not be assigned to A
+Person A, Person 1 who should not be assigned to A, Person 2 who should not be assigned to A, ..., Person n who should not be assigned to A
 ```
 
-If
-## Input Flat Files
+Note that if A should not get B and B should not get A, both of these exceptions must be provided, i.e. saying A should not get B does not mean B cannot get A.
+
+If not provided, the script will look for "exceptions.csv" in the cwd and will use if it exists. If not, will ask the user if they would like to use an exceptions file. If they type anything starting with the letter y, (ex. yes or Y), the user will be prompted for the name of the exceptions file. If not, the script will continue without any exceptions.
 
 ## The Algorithm
 While effective in most situations, the method for selecting Secret Santa pairs is relatively unsophisticated. The

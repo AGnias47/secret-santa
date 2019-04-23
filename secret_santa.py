@@ -25,7 +25,7 @@ def process_commandline_parameters() :
 	Input: None (hard-coded with the function)
 	Output: email,password,fname as strings"""
 	try :
-		options, arguments = getopt.getopt(sys.argv[1:], "e:p:t:x:", ["email=", "password=", "textfile=", "exceptions="])
+		options, arguments = getopt.getopt(sys.argv[1:], "e:p:n:x:", ["email=", "password=", "names=", "exceptions="])
 	except getopt.GetoptError as err:
 		print(err)
 		exit(1)
@@ -34,10 +34,10 @@ def process_commandline_parameters() :
 			email = a
 		elif o in ("-p", "--password") : 
 			password = a
-		elif o in ("-t", "--textfile") :
-			fname = a
+		elif o in ("-n", "--names") :
+			names_fname = a
 		elif o in ("-x", "--exceptions") :
-			exceptions = a
+			exceptions_fname = a
 		else :
 			print("Unhandled option; ignoring {1}", o)
 	try : email
@@ -46,25 +46,25 @@ def process_commandline_parameters() :
 	try : password
 	except :
 		password = getpass("Password for sender's email: ").strip()
-	try : fname
+	try : names_fname
 	except : 
 		generic_names_file = pathlib.Path("names.csv")
 		if generic_names_file.is_file() : 
 			print("Using names.csv from cwd")
-			fname = "names.csv"
+			names_fname = "names.csv"
 		else :
-			fname = input("File containing names,emails : ").strip()
+			names_fname = input("File containing names,emails : ").strip()
 	try : exceptions_fname
 	except :
-		generic_exceptions_file = pathlib.Path("exceptions.txt")
+		generic_exceptions_file = pathlib.Path("exceptions.csv")
 		if generic_exceptions_file.is_file() :
-			print("Using exceptions.txt from cwd")
-			exceptions_fname = "exceptions.txt"
+			print("Using exceptions.csv from cwd")
+			exceptions_fname = "exceptions.csv"
 		else :
 			confirmE = input("No exceptions file provided (-x). Would you like to use one? ").strip()
 			if re.match(r"[Yy]*",confirmE) :
 				exceptions_fname = input("File name: ").strip()
-	return email,password,fname,exceptions_fname
+	return email,password,names_fname,exceptions_fname
 
 def generate_names_dictionary(fname) :
 	"""Generates a dict of the form d[name] = email from a text file.
@@ -153,6 +153,8 @@ def send_email(from_address,from_password,gifter_email,gifter,recipient) :
 
 def main() :
 	email,password,fname,exceptions_fname = process_commandline_parameters()
+	print(email,password,fname,exceptions_fname)
+	exit()
 	d = generate_names_dictionary(fname)
 	exceptions_dict = generate_exceptions_dict(exceptions_fname)
 	names = list(d.keys())

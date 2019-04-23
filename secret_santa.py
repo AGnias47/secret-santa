@@ -62,8 +62,10 @@ def process_commandline_parameters() :
 			exceptions_fname = "exceptions.csv"
 		else :
 			confirmE = input("No exceptions file provided (-x). Would you like to use one? ").strip()
-			if re.match(r"[Yy]*",confirmE) :
+			if re.match("[Yy]",confirmE) :
 				exceptions_fname = input("File name: ").strip()
+			else :
+				return email,password,names_fname,None
 	return email,password,names_fname,exceptions_fname
 
 def generate_names_dictionary(fname) :
@@ -86,6 +88,8 @@ def generate_exceptions_dict(fname) :
 	Input: file name of exceptions
 	Return Value: dictionary of dictionaries
 	"""
+	if fname is None :
+		return None
 	d = dict()
 	with open(fname,'r') as f :
 		for line in f :
@@ -153,8 +157,6 @@ def send_email(from_address,from_password,gifter_email,gifter,recipient) :
 
 def main() :
 	email,password,fname,exceptions_fname = process_commandline_parameters()
-	print(email,password,fname,exceptions_fname)
-	exit()
 	d = generate_names_dictionary(fname)
 	exceptions_dict = generate_exceptions_dict(exceptions_fname)
 	names = list(d.keys())

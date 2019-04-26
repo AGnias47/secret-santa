@@ -107,7 +107,7 @@ def generate_exceptions_dict(fname) :
 
 def check_conditions(nlist, exceptionsDict) :
 	"""Prevents people who shouldn't get each other from getting each other
-	i.e. couples."""
+	ex. couples."""
 	for i in range(len(nlist)) :
 		name = nlist[i]
 		if name in exceptionsDict :

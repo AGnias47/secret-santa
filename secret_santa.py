@@ -151,7 +151,7 @@ def compose_message(gifter, recipient, exchange_date) :
 	message = 'Subject: {}\n\n{}'.format(subject, body)
 	return message
 
-def send_email(from_address,from_password,gifter_email,gifter,recipient) :
+def send_email(from_address,from_password,gifter_email,gifter,recipient,exchange_date) :
 	"""
 	Sends Secret Santa email
 	"""

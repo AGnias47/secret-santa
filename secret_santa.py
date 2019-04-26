@@ -1,14 +1,12 @@
 #!/usr/bin/python3
 #
-#   Andy
+#   Andy Gnias
 #
 #   secret_santa.py - Informs Secret Santa participants of their Secret Santa
 #   via email, making it blind from the person running the code.
 #
-#   4/14/2019
-#
 #   Kubuntu 5.13.5
-#   Python 3.4.2
+#   Python 3.6.7
 #
 
 import sys

@@ -51,7 +51,7 @@ Note that this method could lead to long program runtimes if given a large list 
 Emails are currently sent through the Simple Mail Transfer Protocol using Python's smtplib. Since SMTP is open to man in
 the middle attacks, common email servers, such as gmail, will fail to send an email using this script by default because
 it poses a security risk. In Gmail, you can work around this by logging into your Gmail account and going to
-https://myaccount.google.com/lesssecureapps?, and enabling it while the script runs. While obviously not ideal, more
+https://myaccount.google.com/lesssecureapps, and enabling it while the script runs. While obviously not ideal, more
 secure methods of sending an email through a Python script are not widely available, or at least not widely documented.
 The current method of running this script has been to allow less secure apps via
 Gmail, run the script, and then continue blocking less secure apps, which limits the time exposed to less secure apps to

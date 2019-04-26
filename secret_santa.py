@@ -146,7 +146,7 @@ def compose_message(gifter, recipient, exchange_date) :
 	Assignment = "{}, \n\nYou have been assigned to be {}'s Secret Santa!".format(gifter, recipient)
 	Exchange = ""
 	if exchange_date is not None : 
-		Exchange = " Please purchase a gift for them before the gift exchange on {}".format(exchange_date)
+		Exchange = " Please purchase a gift for them before the gift exchange on {}.".format(exchange_date)
 	body = Assignment + Exchange
 	message = 'Subject: {}\n\n{}'.format(subject, body)
 	return message

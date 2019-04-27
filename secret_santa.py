@@ -119,6 +119,20 @@ def generate_exceptions_dict(fname) :
 	f.close()
 	return d
 
+def Make_Selections(names, exceptions, upper_limit = 1000) :
+	"""
+	Makes the Secret Santa selections
+	Input: Names in a list, exceptions dict, upper limit of attempts to sort (default is 1000)
+	Output: None; names list is mutated
+	"""
+	list_sorted = False
+	counter = 0
+	while not list_sorted and counter < upper_limit : #shuffle list until it abides by conditions set
+		counter += 1
+		shuffle(names)
+		list_sorted = check_conditions(names, exceptions)
+	return list_sorted
+
 def check_conditions(nlist, exceptionsDict) :
 	"""
 	Prevents people who shouldn't get each other from getting each other
@@ -151,9 +165,13 @@ def compose_message(gifter, recipient, exchange_date) :
 	message = 'Subject: {}\n\n{}'.format(subject, body)
 	return message
 
-def send_email(from_address,from_password,gifter_email,gifter,recipient,exchange_date) :
+def send_email(from_address, from_password, gifter_email, gifter, recipient, exchange_date) :
 	"""
 	Sends Secret Santa email
+	Input: Email address to send from, password of email address, email address to send to, gifter's name, recipient's
+	name, exchange date as a string or None
+	Output: True upon successful completion, else false
+	Note: Successful execution of the function does not necessarily mean that an email was sent
 	"""
 	message_body = compose_message(gifter, recipient, exchange_date)
 	try:  
@@ -165,27 +183,38 @@ def send_email(from_address,from_password,gifter_email,gifter,recipient,exchange
 		print('Email sent!')
 	except:  
 		print("Error sending email to {}".format(gifter_email))
+		return False
+	return True
+
+def email_participants(names_list, names_dict, email, password, exchange_date) :
+	"""
+	Informs participants who they have for Secret Santa via email
+	Input: Names as a list, dict of d[name] = email, email address to send from, password of email address, exchange date
+	as a string or None
+	Output: True upon completion
+	"""
+	#first person gifts to last name in 'names list
+	gifter = names_list[0]
+	gifter_email = names_dict[gifter]
+	recipient = names_list[len(names_list)-1]
+	send_email(email,password,gifter_email,gifter,recipient,exchange_date)
+	#everyone else gifts to the person above them in names_list
+	for i in range(len(names_list)-1) :
+		gifter = names_list[i+1]
+		gifter_email = names_dict[gifter]
+		recipient = names_list[i]
+		send_email(email,password,gifter_email,gifter,recipient,exchange_date)
+	return True
 
 def main() :
 	email,password,fname,exceptions_fname,exchange_date = process_commandline_parameters()
-	d = generate_names_dictionary(fname)
-	exceptions_dict = generate_exceptions_dict(exceptions_fname)
-	names = list(d.keys())
-	list_sorted = False
-	while not list_sorted : #shuffle list until it abides by conditions set
-		shuffle(names)
-		list_sorted = check_conditions(names, exceptions_dict)
-
-	#first person gifts to last name in 'names list
-	gifter = names[0]
-	gifter_email = d[gifter]
-	recipient = names[len(names)-1]
-	send_email(email,password,gifter_email,gifter,recipient,exchange_date)
-	#everyone else gifts to the person above them in 'names' list
-	for i in range(len(names)-1) :
-		gifter = names[i+1]
-		gifter_email = d[gifter]
-		recipient = names[i]
-		send_email(email,password,gifter_email,gifter,recipient,exchange_date)
+	names_dictionary = generate_names_dictionary(fname)
+	exceptions_dictionary = generate_exceptions_dict(exceptions_fname)
+	names_list = list(names_dictionary.keys())
+	check_success = Make_Selections(names_list, exceptions_dictionary) #The Algorithm
+	if not check_success :
+		print("Secret Santa selections were unable to be made with the inputs provided")
+		exit()
+	email_participants(names_list, names_dictionary, email, password, exchange_date)
 
 main()

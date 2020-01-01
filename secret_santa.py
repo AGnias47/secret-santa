@@ -129,10 +129,10 @@ def generate_exceptions_dict(fname):
     return d
 
 
-def Make_Selections(names, exceptions, upper_limit=1000):
+def Make_Selections(names, exceptions, upper_limit=10000):
     """
     Makes the Secret Santa selections
-    Input: Names in a list, exceptions dict, upper limit of attempts to sort (default is 1000)
+    Input: Names in a list, exceptions dict, upper limit of attempts to sort (default is 10000)
     Output: None; names list is mutated
     """
     list_sorted = False

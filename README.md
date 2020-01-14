@@ -59,4 +59,7 @@ a minimum. Since this script is not intended for enterprise applications, there 
 SMTP.
 
 ## Future Work
-Based on usage from the last Secret Santa, I'm going to attempt to utilize AWS or some other email service to send out emails. Using SMTP via Gmail sent the emails to my participants' spam folders. Not ideal. Also, when setting the Algorithm iteration limit to 1000, I actually got some instances in testing where a solution couldn't be found, despite one being possible. This is due to the randomness in which a valid list is generated. It may be worth looking into representing the participants as a nodes in a graph, with directed edges being valid parings. It would then likely just require an implementation of finding a [Hamiltonian Path](https://en.wikipedia.org/wiki/Hamiltonian_path), but this is just an idea that needs to be further explored before implementing.
+Based on usage from the last Secret Santa, I'm going to attempt to utilize AWS or some other email service to send out
+emails. Using SMTP via Gmail sent the emails to my participants' spam folders. Not ideal.
+
+Also, when setting the Algorithm iteration limit to 1000, I actually got some instances in testing where a solution couldn't be found, despite one being possible. This is due to the randomness in which a valid list is generated. It may be worth looking into representing the participants as a nodes in a graph, with directed edges being valid parings. This would basically require a solution to the [Hamiltonian Path](https://en.wikipedia.org/wiki/Hamiltonian_path) of the graph, but looking into it I'm not sure if this would actually help at all, and would likely not be worth the effort required to implement it.

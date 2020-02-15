@@ -1,0 +1,45 @@
+<h1 id="secret_santa">Secret_Santa</h1>
+<p>Python script to manage Secret Santa selections. Makes selections, and then alerts participants of who they are assigned
+to give a gift to via email.</p>
+<h2 id="inputs">Inputs</h2>
+<h3 id="-e-or-email">-e or --email</h3>
+<p>Email from which all participant emails will be sent. If not provided, will be prompted for on the command line.</p>
+<h3 id="-p-or-password">-p or --password</h3>
+<p>Password for the provided email. If not provided, will be prompted for on the command line. Password input will be masked.</p>
+<h3 id="-n-or-names">-n or --names</h3>
+<p>Flat file containing the Secret Santa participant&#39;s names and emails in the form:</p>
+<pre><code><span class="hljs-keyword">Name</span>,Email
+</code></pre><p>If not provided, the script will look for &quot;names.csv&quot; in the cwd and will use it if it exists. If not, will prompt the user for a filename.</p>
+<p>See &quot;names.csv&quot; in this repo for an example.</p>
+<h3 id="-x-or-exceptions-optional-parameter-">-x or --exceptions (optional parameter)</h3>
+<p>Flat file containing pairings which should not occur in the form:</p>
+<pre><code>Person A, Person <span class="hljs-number">1</span> who should <span class="hljs-literal">not</span> be assigned <span class="hljs-keyword">to</span> A, Person <span class="hljs-number">2</span> who should <span class="hljs-literal">not</span> be assigned <span class="hljs-keyword">to</span> A, <span class="hljs-params">...</span>, Person n who should <span class="hljs-literal">not</span> be assigned <span class="hljs-keyword">to</span> A
+</code></pre><p>Note that if A should not get B and B should not get A, both of these exceptions must be provided, i.e. saying A should not get B does not mean B cannot get A.</p>
+<p>If not provided, the script will look for &quot;exceptions.csv&quot; in the cwd and will use it if it exists. If not, will ask the user if they would like to use an exceptions file. If they type anything starting with the letter y, (ex. yes or Y), the user will be prompted for the name of the exceptions file. If not, the script will continue without any exceptions.</p>
+<p>See &quot;exceptions.csv&quot; in this repo for an example.</p>
+<h3 id="-d-or-date-optional-parameter-">-d or --date (optional parameter)</h3>
+<p>Date when the Secret Santa gift exchange will occur. If not provided, script will ask if the user would like to provide
+an exchange date, using the same method (Y or yes) as the exclusions list question.</p>
+<p>If provided, the exchange date will be included in the email alerting participants of who their secret santa is. If not,
+no date will be provided in the email sent to the participant.</p>
+<h2 id="function-documentation">Function Documentation</h2>
+<p><a href="https://agnias47.github.io/ProjectDocumentation/secret_santa">Link to Function Documentation</a></p>
+<h2 id="the-algorithm">The Algorithm</h2>
+<p>While effective in most situations, the method for selecting Secret Santa pairs is relatively unsophisticated. The program will take the list of names and put them in a random order using the Python shuffle method, which utilizes the <a href="https://softwareengineering.stackexchange.com/questions/215737/how-python-random-shuffle-works">Fisher-Yates shuffle and runs in O(n) time</a>. Random numbers for this shuffle are generated using a <a href="https://en.wikipedia.org/wiki/Wichmann%E2%80%93Hill">Wichman-Hill random number generator</a>. Using this list, the first person in the list is assigned to give a gift to the last person in the list, and everyone else is assigned to give a gift to the person before them. Note that with this implementation, there are no closed cycles of gift giving, i.e. a scenario where A gives to B and B gives to A will never occur in a list with more than 2 names.</p>
+<p>After the list of names is shuffled, the program will perform a check to ensure that no invalid pairings have been made, ex. someone is paired with someone on their exclude list. If an invalid paring is made, the shuffle is performed again. This process is repeated until a valid sort is performed. </p>
+<p>Note that this method could lead to long program runtimes if given a large list of names with many inter-connected exclusions, and would also run infinitely if a scenario was given in which no valid set of parings could be made. To prevent an infinite run time, a maximum number of iterations is currently set by default (10000) and can be overridden by modifying the program. However, the program should suit most scenarios. Runtime for a group of ~15 people has always completed seemingly instantaneously during the work of this algorithm, so at this time there are no plans to improve it.</p>
+<h2 id="sending-emails">Sending Emails</h2>
+<p>Emails are currently sent through the Simple Mail Transfer Protocol using Python&#39;s smtplib. Since SMTP is open to man in
+the middle attacks, common email servers, such as gmail, will fail to send an email using this script by default because
+it poses a security risk. In Gmail, you can work around this by logging into your Gmail account and going to
+<a href="https://myaccount.google.com/lesssecureapps">https://myaccount.google.com/lesssecureapps</a>, and enabling it while the script runs. While obviously not ideal, more
+secure methods of sending an email through a Python script are not widely available, or at least not widely documented.
+The current method of running this script has been to allow less secure apps via
+Gmail, run the script, and then continue blocking less secure apps, which limits the time exposed to less secure apps to
+a minimum. Since this script is not intended for enterprise applications, there are currently no plans to move away from
+SMTP.</p>
+<h2 id="future-work">Future Work</h2>
+<p>Based on usage from the last Secret Santa, I&#39;m going to attempt to utilize AWS or some other email service to send out
+emails. Using SMTP via Gmail sent the emails to my participants&#39; spam folders. Not ideal.</p>
+<p>Also, when setting the Algorithm iteration limit to 1000, I actually got some instances in testing where a solution couldn&#39;t be found, despite one being possible. This is due to the randomness in which a valid list is generated. It may be worth looking into representing the participants as a nodes in a graph, with directed edges being valid parings. This would basically require a solution to the <a href="https://en.wikipedia.org/wiki/Hamiltonian_path">Hamiltonian Path</a> of the graph, but looking into it I&#39;m not sure if this would actually help at all, and would likely not be worth the effort required to implement it.</p>
+

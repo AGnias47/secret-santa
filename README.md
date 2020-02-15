@@ -40,6 +40,9 @@ an exchange date, using the same method (Y or yes) as the exclusions list questi
 If provided, the exchange date will be included in the email alerting participants of who their secret santa is. If not,
 no date will be provided in the email sent to the participant.
 
+## Function Documentation
+[Link to Function Documentation](https://agnias47.github.io/ProjectDocumentation/secret_santa)
+
 ## The Algorithm
 While effective in most situations, the method for selecting Secret Santa pairs is relatively unsophisticated. The program will take the list of names and put them in a random order using the Python shuffle method, which utilizes the [Fisher-Yates shuffle and runs in O(n) time](https://softwareengineering.stackexchange.com/questions/215737/how-python-random-shuffle-works). Random numbers for this shuffle are generated using a [Wichman-Hill random number generator](https://en.wikipedia.org/wiki/Wichmann%E2%80%93Hill). Using this list, the first person in the list is assigned to give a gift to the last person in the list, and everyone else is assigned to give a gift to the person before them. Note that with this implementation, there are no closed cycles of gift giving, i.e. a scenario where A gives to B and B gives to A will never occur in a list with more than 2 names.
 

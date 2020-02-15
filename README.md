@@ -1,6 +1,18 @@
-# Secret_Santa
+# Secret Santa Selection Manager
 Python script to manage Secret Santa selections. Makes selections, and then alerts participants of who they are assigned
 to give a gift to via email.
+
+## Requirements
+ * Python 3
+ * Method for sending emails (ex. Gmail account)
+
+
+## Usage
+```
+wget https://github.com/AGnias47/Secret_Santa/blob/master/secret_santa.py
+python3 secret_santa.py -e sender@email.com -n names.csv -x exceptions.csv -d "12/25/2020"
+```
+
 
 ## Inputs
 ### -e or --email
@@ -40,17 +52,19 @@ an exchange date, using the same method (Y or yes) as the exclusions list questi
 If provided, the exchange date will be included in the email alerting participants of who their secret santa is. If not,
 no date will be provided in the email sent to the participant.
 
-## Function Documentation
-[Link to Function Documentation](https://agnias47.github.io/ProjectDocumentation/secret_santa)
 
-## The Algorithm
+## Functionality Description
+### Function Documentation
+[Function Documentation generated from docstrings using pdoc](function_definitions.html)
+
+### The Algorithm
 While effective in most situations, the method for selecting Secret Santa pairs is relatively unsophisticated. The program will take the list of names and put them in a random order using the Python shuffle method, which utilizes the [Fisher-Yates shuffle and runs in O(n) time](https://softwareengineering.stackexchange.com/questions/215737/how-python-random-shuffle-works). Random numbers for this shuffle are generated using a [Wichman-Hill random number generator](https://en.wikipedia.org/wiki/Wichmann%E2%80%93Hill). Using this list, the first person in the list is assigned to give a gift to the last person in the list, and everyone else is assigned to give a gift to the person before them. Note that with this implementation, there are no closed cycles of gift giving, i.e. a scenario where A gives to B and B gives to A will never occur in a list with more than 2 names.
 
 After the list of names is shuffled, the program will perform a check to ensure that no invalid pairings have been made, ex. someone is paired with someone on their exclude list. If an invalid paring is made, the shuffle is performed again. This process is repeated until a valid sort is performed. 
 
 Note that this method could lead to long program runtimes if given a large list of names with many inter-connected exclusions, and would also run infinitely if a scenario was given in which no valid set of parings could be made. To prevent an infinite run time, a maximum number of iterations is currently set by default (10000) and can be overridden by modifying the program. However, the program should suit most scenarios. Runtime for a group of ~15 people has always completed seemingly instantaneously during the work of this algorithm, so at this time there are no plans to improve it.
 
-## Sending Emails
+### Sending Emails
 Emails are currently sent through the Simple Mail Transfer Protocol using Python's smtplib. Since SMTP is open to man in
 the middle attacks, common email servers, such as gmail, will fail to send an email using this script by default because
 it poses a security risk. In Gmail, you can work around this by logging into your Gmail account and going to
@@ -63,6 +77,5 @@ SMTP.
 
 ## Future Work
 Based on usage from the last Secret Santa, I'm going to attempt to utilize AWS or some other email service to send out
-emails. Using SMTP via Gmail sent the emails to my participants' spam folders. Not ideal.
+emails. Using SMTP via Gmail sent the emails to my participants' spam folders, which was not ideal.
 
-Also, when setting the Algorithm iteration limit to 1000, I actually got some instances in testing where a solution couldn't be found, despite one being possible. This is due to the randomness in which a valid list is generated. It may be worth looking into representing the participants as a nodes in a graph, with directed edges being valid parings. This would basically require a solution to the [Hamiltonian Path](https://en.wikipedia.org/wiki/Hamiltonian_path) of the graph, but looking into it I'm not sure if this would actually help at all, and would likely not be worth the effort required to implement it.

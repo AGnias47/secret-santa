@@ -22,7 +22,9 @@ def process_commandline_parameters():
     """
     Processes commandline parameters for dynamic use of email, password, and csv file containing 
     names and emails. Not adaptable to other scripts in its hard-coded form.
+
     Input: None (hard-coded with the function)
+
     Output: email,password,fname as strings
     """
     try:
@@ -88,7 +90,9 @@ def process_commandline_parameters():
 def generate_names_dictionary(fname):
     """
     Generates a dict of the form d[name] = email from a text file.
+
     Input: text file name in cwd
+
     Output: populated dictionary
     """
     d = dict()
@@ -106,7 +110,9 @@ def generate_exceptions_dict(fname):
     """
     Generates a dictionary of dictionaries where each entry is a dict of the form:
         d[Name] = List of names they can't be matched with
+
     Input: file name of exceptions
+
     Return Value: dictionary of dictionaries
     """
     if fname is None:
@@ -132,7 +138,9 @@ def generate_exceptions_dict(fname):
 def Make_Selections(names, exceptions, upper_limit=10000):
     """
     Makes the Secret Santa selections
+
     Input: Names in a list, exceptions dict, upper limit of attempts to sort (default is 10000)
+
     Output: None; names list is mutated
     """
     list_sorted = False
@@ -165,7 +173,9 @@ def check_conditions(nlist, exceptionsDict):
 def compose_message(gifter, recipient, exchange_date):
     """
     Generates the content of the Secret Santa email.
+
     Input: gifter, recipient, exchange date (can be none)
+
     Output: message compatible with smtp email
     """
     subject = "Secret Santa Assignment"
@@ -181,9 +191,12 @@ def compose_message(gifter, recipient, exchange_date):
 def send_email(from_address, from_password, gifter_email, gifter, recipient, exchange_date):
     """
     Sends Secret Santa email
+
     Input: Email address to send from, password of email address, email address to send to, gifter's name, recipient's
     name, exchange date as a string or None
+
     Output: True upon successful completion, else false
+
     Note: Successful execution of the function does not necessarily mean that an email was sent
     """
     message_body = compose_message(gifter, recipient, exchange_date)
@@ -203,8 +216,10 @@ def send_email(from_address, from_password, gifter_email, gifter, recipient, exc
 def email_participants(names_list, names_dict, email, password, exchange_date):
     """
     Informs participants who they have for Secret Santa via email
+
     Input: Names as a list, dict of d[name] = email, email address to send from, password of email address, exchange date
     as a string or None
+
     Output: True upon completion
     """
     # first person gifts to last name in 'names list

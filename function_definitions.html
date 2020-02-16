@@ -3,7 +3,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
-    <title>Secret Santa Function Documentation</title>
+    <title>secret_santa API documentation</title>
     <meta name="description" content="" />
 
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
@@ -1068,8 +1068,7 @@ table {
 
 
   <header id="section-intro">
-  <h1 class="title"><span class="name">Secret Santa Function Documentation</span></h1>
-  <h2>Created with pdoc</h2>
+  <h1 class="title"><span class="name">secret_santa</span> module</h1>
   
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-secret_santa', this);">Show source &equiv;</a></p>
@@ -1096,19 +1095,18 @@ table {
 
 <span class="k">def</span> <span class="nf">process_commandline_parameters</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Processes commandline parameters for dynamic use of email, password, and csv file containing </span>
-<span class="sd">    names and emails. Not adaptable to other scripts in its hard-coded form.</span>
+<span class="sd">    Processes commandline parameters for dynamic use of email, password, csv files, and exchange date.</span>
+<span class="sd">    Not adaptable to other scripts in its hard-coded form.</span>
 
-<span class="sd">    Input: None (hard-coded with the function)</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple: (str, str, str, str, str)  </span>
+<span class="sd">        email, password, and names csv, exceptions csv, and exchange date  </span>
 
-<span class="sd">    Output: email,password,fname as strings</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">options</span><span class="p">,</span> <span class="n">arguments</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">&quot;e:p:n:x:d:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;email=&quot;</span><span class="p">,</span> <span class="s2">&quot;password=&quot;</span><span class="p">,</span> <span class="s2">&quot;names=&quot;</span><span class="p">,</span> <span class="s2">&quot;exceptions=&quot;</span><span class="p">,</span> <span class="s2">&quot;date=&quot;</span><span class="p">]</span>
-        <span class="p">)</span>
-    <span class="k">except</span> <span class="n">getopt</span><span class="o">.</span><span class="n">GetoptError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="n">options</span><span class="p">,</span> <span class="n">arguments</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">&quot;e:p:n:x:d:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;email=&quot;</span><span class="p">,</span> <span class="s2">&quot;password=&quot;</span><span class="p">,</span> <span class="s2">&quot;names=&quot;</span><span class="p">,</span> <span class="s2">&quot;exceptions=&quot;</span><span class="p">,</span> <span class="s2">&quot;date=&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
     <span class="k">for</span> <span class="n">o</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="s2">&quot;--email&quot;</span><span class="p">):</span>
             <span class="n">email</span> <span class="o">=</span> <span class="n">a</span>
@@ -1124,15 +1122,15 @@ table {
             <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Unhandled option; ignoring {1}&quot;</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">email</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
         <span class="n">email</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Sender&#39;s email: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">password</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
         <span class="n">password</span> <span class="o">=</span> <span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Password for sender&#39;s email: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">names_fname</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
         <span class="n">generic_names_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;names.csv&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">generic_names_file</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
             <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Using names.csv from cwd&quot;</span><span class="p">)</span>
@@ -1141,22 +1139,22 @@ table {
             <span class="n">names_fname</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;File containing names,emails: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">exceptions_fname</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
         <span class="n">generic_exceptions_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;exceptions.csv&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">generic_exceptions_file</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
             <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Using exceptions.csv from cwd&quot;</span><span class="p">)</span>
             <span class="n">exceptions_fname</span> <span class="o">=</span> <span class="s2">&quot;exceptions.csv&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">confirmE</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;No exceptions file provided (-x). Would you like to use one? &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">regex</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;[Yy]&quot;</span><span class="p">,</span> <span class="n">confirmE</span><span class="p">):</span>
+            <span class="n">confirm_exceptions_file</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;No exceptions file provided (-x). Would you like to use one? &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">regex</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;[Yy]&quot;</span><span class="p">,</span> <span class="n">confirm_exceptions_file</span><span class="p">):</span>
                 <span class="n">exceptions_fname</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;File name: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">exceptions_fname</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">exchange_date</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="n">confirmD</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Would you like to specify an exchange date?&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">regex</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;[Yy]&quot;</span><span class="p">,</span> <span class="n">confirmD</span><span class="p">):</span>
+    <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+        <span class="n">confirm_exchange_date</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Would you like to specify an exchange date?&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">regex</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;[Yy]&quot;</span><span class="p">,</span> <span class="n">confirm_exchange_date</span><span class="p">):</span>
             <span class="n">exchange_date</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Specify date however you would like it displayed: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">exchange_date</span> <span class="o">=</span> <span class="bp">None</span>
@@ -1165,11 +1163,18 @@ table {
 
 <span class="k">def</span> <span class="nf">generate_names_dictionary</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generates a dict of the form d[name] = email from a text file.</span>
+<span class="sd">    Generates a dict of the form d[name] = email from a csv file.</span>
 
-<span class="sd">    Input: text file name in cwd</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname: str  </span>
+<span class="sd">        File path to CSV of the form [name, email address] in the cwd  </span>
 
-<span class="sd">    Output: populated dictionary</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict  </span>
+<span class="sd">        key: name, value: email  </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -1184,12 +1189,19 @@ table {
 
 <span class="k">def</span> <span class="nf">generate_exceptions_dict</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generates a dictionary of dictionaries where each entry is a dict of the form:</span>
+<span class="sd">    Generates a dictionary where each entry is a dict of the form:  </span>
 <span class="sd">        d[Name] = List of names they can&#39;t be matched with</span>
 
-<span class="sd">    Input: file name of exceptions</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname: str  </span>
+<span class="sd">        File path to CSV of the form [name, person to exclude_1, ..., person to exclude_n] in the cwd  </span>
 
-<span class="sd">    Return Value: dictionary of dictionaries</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict:  </span>
+<span class="sd">        Key: Name, Value: List of names to exclude  </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">None</span>
@@ -1197,16 +1209,13 @@ table {
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">contents</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">l</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">ex</span> <span class="ow">in</span> <span class="n">contents</span><span class="p">:</span>
+            <span class="n">names_to_exclude</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ex</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">contents</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">name</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">d</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="n">names_to_exclude</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">names_to_exclude</span>
     <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">d</span>
 
@@ -1215,9 +1224,20 @@ table {
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Makes the Secret Santa selections</span>
 
-<span class="sd">    Input: Names in a list, exceptions dict, upper limit of attempts to sort (default is 10000)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    names: list  </span>
+<span class="sd">        Names of participants  </span>
+<span class="sd">    exceptions: dict  </span>
+<span class="sd">        Key: Name, Value: List of names to exclude  </span>
+<span class="sd">    upper_limit: int (default is 10000)  </span>
+<span class="sd">        Max sorting attempts to execute  </span>
 
-<span class="sd">    Output: None; names list is mutated</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool  </span>
+<span class="sd">        True if list was properly sorted, else False. Names list is mutated in new shuffled order  </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">list_sorted</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1228,93 +1248,153 @@ table {
     <span class="k">return</span> <span class="n">list_sorted</span>
 
 
-<span class="k">def</span> <span class="nf">check_conditions</span><span class="p">(</span><span class="n">nlist</span><span class="p">,</span> <span class="n">exceptionsDict</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">check_conditions</span><span class="p">(</span><span class="n">names_list</span><span class="p">,</span> <span class="n">exceptionsDict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Prevents people who shouldn&#39;t get each other from getting each other</span>
-<span class="sd">    ex. couples.</span>
+<span class="sd">    Check to prevent people who shouldn&#39;t get each other from getting each other, ex. couples</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    names_list: list  </span>
+<span class="sd">        Names of participants  </span>
+<span class="sd">    exceptionsDict: dict  </span>
+<span class="sd">        Key: Name, Value: List of names to exclude  </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool  </span>
+<span class="sd">        True if no exceptions are violated, else False  </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nlist</span><span class="p">)):</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">nlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">exceptionsDict</span><span class="p">:</span>
-            <span class="n">exceptions</span> <span class="o">=</span> <span class="n">exceptionsDict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">nlist</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">nlist</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">exceptions</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="bp">False</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">nlist</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">exceptions</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">names_list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">names_list</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">exceptionsDict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="k">return</span> <span class="bp">False</span>
     <span class="k">return</span> <span class="bp">True</span>
 
 
-<span class="k">def</span> <span class="nf">compose_message</span><span class="p">(</span><span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">compose_message</span><span class="p">(</span><span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates the content of the Secret Santa email.</span>
 
-<span class="sd">    Input: gifter, recipient, exchange date (can be none)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gifter: str  </span>
+<span class="sd">        Name of gifter  </span>
+<span class="sd">    recipient: str  </span>
+<span class="sd">        Name of gift recipient  </span>
+<span class="sd">    exchange_date: str (default is None)  </span>
+<span class="sd">        If provided, specifies the exchange date in the message  </span>
 
-<span class="sd">    Output: message compatible with smtp email</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str  </span>
+<span class="sd">        Message compatible with SMTP email  </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">subject</span> <span class="o">=</span> <span class="s2">&quot;Secret Santa Assignment&quot;</span>
-    <span class="n">Assignment</span> <span class="o">=</span> <span class="s2">&quot;{}, </span><span class="se">\n\n</span><span class="s2">You have been assigned to be {}&#39;s Secret Santa!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">)</span>
-    <span class="n">Exchange</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">assignment</span> <span class="o">=</span> <span class="s2">&quot;{}, </span><span class="se">\n\n</span><span class="s2">You have been assigned to be {}&#39;s Secret Santa!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">)</span>
+    <span class="n">exchange</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">if</span> <span class="n">exchange_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">Exchange</span> <span class="o">=</span> <span class="s2">&quot; Please purchase a gift for them before the gift exchange on {}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exchange_date</span><span class="p">)</span>
-    <span class="n">body</span> <span class="o">=</span> <span class="n">Assignment</span> <span class="o">+</span> <span class="n">Exchange</span>
+        <span class="n">exchange</span> <span class="o">=</span> <span class="s2">&quot; Please purchase a gift for them before the gift exchange on {}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exchange_date</span><span class="p">)</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">assignment</span> <span class="o">+</span> <span class="n">exchange</span>
     <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Subject: {}</span><span class="se">\n\n</span><span class="s2">{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">message</span>
 
 
-<span class="k">def</span> <span class="nf">send_email</span><span class="p">(</span><span class="n">from_address</span><span class="p">,</span> <span class="n">from_password</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">send_email</span><span class="p">(</span><span class="n">from_address</span><span class="p">,</span> <span class="n">from_password</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">smtp_message</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sends Secret Santa email</span>
 
-<span class="sd">    Input: Email address to send from, password of email address, email address to send to, gifter&#39;s name, recipient&#39;s</span>
-<span class="sd">    name, exchange date as a string or None</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    from_address: str  </span>
+<span class="sd">        Email address to send from  </span>
+<span class="sd">    from_password: str  </span>
+<span class="sd">        Password for from_address email  </span>
+<span class="sd">    gifter_email: str  </span>
+<span class="sd">        Email address to send to  </span>
+<span class="sd">    smtp_message: str  </span>
+<span class="sd">        Message to email  </span>
 
-<span class="sd">    Output: True upon successful completion, else false</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool  </span>
+<span class="sd">        True upon successful completion, else False  </span>
 
-<span class="sd">    Note: Successful execution of the function does not necessarily mean that an email was sent</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -------</span>
+<span class="sd">    Successful execution of the function does not necessarily mean that an email was sent  </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">message_body</span> <span class="o">=</span> <span class="n">compose_message</span><span class="p">(</span><span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">server</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP_SSL</span><span class="p">(</span><span class="s2">&quot;smtp.gmail.com&quot;</span><span class="p">,</span> <span class="mi">465</span><span class="p">)</span>
         <span class="n">server</span><span class="o">.</span><span class="n">ehlo</span><span class="p">()</span>
         <span class="n">server</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">from_address</span><span class="p">,</span> <span class="n">from_password</span><span class="p">)</span>
-        <span class="n">server</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">from_address</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">message_body</span><span class="p">)</span>
+        <span class="n">server</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">from_address</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">smtp_message</span><span class="p">)</span>
         <span class="n">server</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Email sent!&quot;</span><span class="p">)</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Error sending email to {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gifter_email</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">False</span>
     <span class="k">return</span> <span class="bp">True</span>
 
 
-<span class="k">def</span> <span class="nf">email_participants</span><span class="p">(</span><span class="n">names_list</span><span class="p">,</span> <span class="n">names_dict</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">email_participants</span><span class="p">(</span><span class="n">names_list</span><span class="p">,</span> <span class="n">names_dict</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">exchange_date</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Informs participants who they have for Secret Santa via email</span>
+<span class="sd">    Informs participants who they have for Secret Santa via email  </span>
 
-<span class="sd">    Input: Names as a list, dict of d[name] = email, email address to send from, password of email address, exchange date</span>
-<span class="sd">    as a string or None</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    names_list: list  </span>
+<span class="sd">        list of participant names  </span>
+<span class="sd">    names_dict: dict  </span>
+<span class="sd">        Key: Name, Value: Email address of Name  </span>
+<span class="sd">    email: str  </span>
+<span class="sd">        Email address to send from  </span>
+<span class="sd">    password: str  </span>
+<span class="sd">        Password of email address  </span>
+<span class="sd">    exchange_date: str (default is None)  </span>
+<span class="sd">        Date of the gift exchange; can be None if exchange date is undecided  </span>
+<span class="sd">    test: bool (default is False)  </span>
+<span class="sd">        If True, do not send an actual email and only print to stdout, else actually send an email  </span>
 
-<span class="sd">    Output: True upon completion</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool  </span>
+<span class="sd">        True upon completion  </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># first person gifts to last name in &#39;names list</span>
     <span class="n">gifter</span> <span class="o">=</span> <span class="n">names_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">gifter_email</span> <span class="o">=</span> <span class="n">names_dict</span><span class="p">[</span><span class="n">gifter</span><span class="p">]</span>
     <span class="n">recipient</span> <span class="o">=</span> <span class="n">names_list</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">names_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="n">send_email</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">)</span>
+    <span class="c1"># compose a message based on the selected gifter and recipient</span>
+    <span class="n">message_body</span> <span class="o">=</span> <span class="n">compose_message</span><span class="p">(</span><span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">test</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">message_body</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">send_email</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">message_body</span><span class="p">)</span>
     <span class="c1"># everyone else gifts to the person above them in names_list</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">names_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">names_list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">names_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>  <span class="c1"># All gifts processed; prevents out of range error</span>
+            <span class="k">continue</span>
         <span class="n">gifter</span> <span class="o">=</span> <span class="n">names_list</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
         <span class="n">gifter_email</span> <span class="o">=</span> <span class="n">names_dict</span><span class="p">[</span><span class="n">gifter</span><span class="p">]</span>
         <span class="n">recipient</span> <span class="o">=</span> <span class="n">names_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">send_email</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">)</span>
+        <span class="n">message_body</span> <span class="o">=</span> <span class="n">compose_message</span><span class="p">(</span><span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">test</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">message_body</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">send_email</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">message_body</span><span class="p">)</span>
     <span class="k">return</span> <span class="bp">True</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">exceptions_fname</span><span class="p">,</span> <span class="n">exchange_date</span> <span class="o">=</span> <span class="n">process_commandline_parameters</span><span class="p">()</span>
-    <span class="n">names_dictionary</span> <span class="o">=</span> <span class="n">generate_names_dictionary</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">names_fname</span><span class="p">,</span> <span class="n">exceptions_fname</span><span class="p">,</span> <span class="n">exchange_date</span> <span class="o">=</span> <span class="n">process_commandline_parameters</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">getopt</span><span class="o">.</span><span class="n">GetoptError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="n">names_dictionary</span> <span class="o">=</span> <span class="n">generate_names_dictionary</span><span class="p">(</span><span class="n">names_fname</span><span class="p">)</span>
     <span class="n">exceptions_dictionary</span> <span class="o">=</span> <span class="n">generate_exceptions_dict</span><span class="p">(</span><span class="n">exceptions_fname</span><span class="p">)</span>
     <span class="n">names_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">names_dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="n">check_success</span> <span class="o">=</span> <span class="n">Make_Selections</span><span class="p">(</span><span class="n">names_list</span><span class="p">,</span> <span class="n">exceptions_dictionary</span><span class="p">)</span>  <span class="c1"># The Algorithm</span>
@@ -1340,8 +1420,16 @@ table {
     
   
     <div class="desc"><p>Makes the Secret Santa selections</p>
-<p>Input: Names in a list, exceptions dict, upper limit of attempts to sort (default is 10000)</p>
-<p>Output: None; names list is mutated</p></div>
+<h2>Parameters</h2>
+<p>names: list<br />
+    Names of participants<br />
+exceptions: dict<br />
+    Key: Name, Value: List of names to exclude<br />
+upper_limit: int (default is 10000)<br />
+    Max sorting attempts to execute  </p>
+<h2>Returns</h2>
+<p>bool<br />
+    True if list was properly sorted, else False. Names list is mutated in new shuffled order</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-secret_santa.Make_Selections', this);">Show source &equiv;</a></p>
   <div id="source-secret_santa.Make_Selections" class="source">
@@ -1349,9 +1437,20 @@ table {
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Makes the Secret Santa selections</span>
 
-<span class="sd">    Input: Names in a list, exceptions dict, upper limit of attempts to sort (default is 10000)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    names: list  </span>
+<span class="sd">        Names of participants  </span>
+<span class="sd">    exceptions: dict  </span>
+<span class="sd">        Key: Name, Value: List of names to exclude  </span>
+<span class="sd">    upper_limit: int (default is 10000)  </span>
+<span class="sd">        Max sorting attempts to execute  </span>
 
-<span class="sd">    Output: None; names list is mutated</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool  </span>
+<span class="sd">        True if list was properly sorted, else False. Names list is mutated in new shuffled order  </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">list_sorted</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1370,32 +1469,44 @@ table {
       
   <div class="item">
     <div class="name def" id="secret_santa.check_conditions">
-    <p>def <span class="ident">check_conditions</span>(</p><p>nlist, exceptionsDict)</p>
+    <p>def <span class="ident">check_conditions</span>(</p><p>names_list, exceptionsDict)</p>
     </div>
     
 
     
   
-    <div class="desc"><p>Prevents people who shouldn't get each other from getting each other
-ex. couples.</p></div>
+    <div class="desc"><p>Check to prevent people who shouldn't get each other from getting each other, ex. couples</p>
+<h2>Parameters</h2>
+<p>names_list: list<br />
+    Names of participants<br />
+exceptionsDict: dict<br />
+    Key: Name, Value: List of names to exclude  </p>
+<h2>Returns</h2>
+<p>bool<br />
+    True if no exceptions are violated, else False</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-secret_santa.check_conditions', this);">Show source &equiv;</a></p>
   <div id="source-secret_santa.check_conditions" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">check_conditions</span><span class="p">(</span><span class="n">nlist</span><span class="p">,</span> <span class="n">exceptionsDict</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">check_conditions</span><span class="p">(</span><span class="n">names_list</span><span class="p">,</span> <span class="n">exceptionsDict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Prevents people who shouldn&#39;t get each other from getting each other</span>
-<span class="sd">    ex. couples.</span>
+<span class="sd">    Check to prevent people who shouldn&#39;t get each other from getting each other, ex. couples</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    names_list: list  </span>
+<span class="sd">        Names of participants  </span>
+<span class="sd">    exceptionsDict: dict  </span>
+<span class="sd">        Key: Name, Value: List of names to exclude  </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool  </span>
+<span class="sd">        True if no exceptions are violated, else False  </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nlist</span><span class="p">)):</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">nlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">exceptionsDict</span><span class="p">:</span>
-            <span class="n">exceptions</span> <span class="o">=</span> <span class="n">exceptionsDict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">nlist</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">nlist</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">exceptions</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="bp">False</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">nlist</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">exceptions</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">names_list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">names_list</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">exceptionsDict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="k">return</span> <span class="bp">False</span>
     <span class="k">return</span> <span class="bp">True</span>
 </pre></div>
 
@@ -1407,32 +1518,51 @@ ex. couples.</p></div>
       
   <div class="item">
     <div class="name def" id="secret_santa.compose_message">
-    <p>def <span class="ident">compose_message</span>(</p><p>gifter, recipient, exchange_date)</p>
+    <p>def <span class="ident">compose_message</span>(</p><p>gifter, recipient, exchange_date=None)</p>
     </div>
     
 
     
   
     <div class="desc"><p>Generates the content of the Secret Santa email.</p>
-<p>Input: gifter, recipient, exchange date (can be none)</p>
-<p>Output: message compatible with smtp email</p></div>
+<h2>Parameters</h2>
+<p>gifter: str<br />
+    Name of gifter<br />
+recipient: str<br />
+    Name of gift recipient<br />
+exchange_date: str (default is None)<br />
+    If provided, specifies the exchange date in the message  </p>
+<h2>Returns</h2>
+<p>str<br />
+    Message compatible with SMTP email</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-secret_santa.compose_message', this);">Show source &equiv;</a></p>
   <div id="source-secret_santa.compose_message" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">compose_message</span><span class="p">(</span><span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">compose_message</span><span class="p">(</span><span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates the content of the Secret Santa email.</span>
 
-<span class="sd">    Input: gifter, recipient, exchange date (can be none)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gifter: str  </span>
+<span class="sd">        Name of gifter  </span>
+<span class="sd">    recipient: str  </span>
+<span class="sd">        Name of gift recipient  </span>
+<span class="sd">    exchange_date: str (default is None)  </span>
+<span class="sd">        If provided, specifies the exchange date in the message  </span>
 
-<span class="sd">    Output: message compatible with smtp email</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str  </span>
+<span class="sd">        Message compatible with SMTP email  </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">subject</span> <span class="o">=</span> <span class="s2">&quot;Secret Santa Assignment&quot;</span>
-    <span class="n">Assignment</span> <span class="o">=</span> <span class="s2">&quot;{}, </span><span class="se">\n\n</span><span class="s2">You have been assigned to be {}&#39;s Secret Santa!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">)</span>
-    <span class="n">Exchange</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">assignment</span> <span class="o">=</span> <span class="s2">&quot;{}, </span><span class="se">\n\n</span><span class="s2">You have been assigned to be {}&#39;s Secret Santa!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">)</span>
+    <span class="n">exchange</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">if</span> <span class="n">exchange_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">Exchange</span> <span class="o">=</span> <span class="s2">&quot; Please purchase a gift for them before the gift exchange on {}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exchange_date</span><span class="p">)</span>
-    <span class="n">body</span> <span class="o">=</span> <span class="n">Assignment</span> <span class="o">+</span> <span class="n">Exchange</span>
+        <span class="n">exchange</span> <span class="o">=</span> <span class="s2">&quot; Please purchase a gift for them before the gift exchange on {}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exchange_date</span><span class="p">)</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">assignment</span> <span class="o">+</span> <span class="n">exchange</span>
     <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Subject: {}</span><span class="se">\n\n</span><span class="s2">{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">message</span>
 </pre></div>
@@ -1445,39 +1575,79 @@ ex. couples.</p></div>
       
   <div class="item">
     <div class="name def" id="secret_santa.email_participants">
-    <p>def <span class="ident">email_participants</span>(</p><p>names_list, names_dict, email, password, exchange_date)</p>
+    <p>def <span class="ident">email_participants</span>(</p><p>names_list, names_dict, email, password, exchange_date=None, test=False)</p>
     </div>
     
 
     
   
-    <div class="desc"><p>Informs participants who they have for Secret Santa via email</p>
-<p>Input: Names as a list, dict of d[name] = email, email address to send from, password of email address, exchange date
-as a string or None</p>
-<p>Output: True upon completion</p></div>
+    <div class="desc"><p>Informs participants who they have for Secret Santa via email  </p>
+<h2>Parameters</h2>
+<p>names_list: list<br />
+    list of participant names<br />
+names_dict: dict<br />
+    Key: Name, Value: Email address of Name<br />
+email: str<br />
+    Email address to send from<br />
+password: str<br />
+    Password of email address<br />
+exchange_date: str (default is None)<br />
+    Date of the gift exchange; can be None if exchange date is undecided<br />
+test: bool (default is False)<br />
+    If True, do not send an actual email and only print to stdout, else actually send an email  </p>
+<h2>Returns</h2>
+<p>bool<br />
+    True upon completion</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-secret_santa.email_participants', this);">Show source &equiv;</a></p>
   <div id="source-secret_santa.email_participants" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">email_participants</span><span class="p">(</span><span class="n">names_list</span><span class="p">,</span> <span class="n">names_dict</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">email_participants</span><span class="p">(</span><span class="n">names_list</span><span class="p">,</span> <span class="n">names_dict</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">exchange_date</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Informs participants who they have for Secret Santa via email</span>
+<span class="sd">    Informs participants who they have for Secret Santa via email  </span>
 
-<span class="sd">    Input: Names as a list, dict of d[name] = email, email address to send from, password of email address, exchange date</span>
-<span class="sd">    as a string or None</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    names_list: list  </span>
+<span class="sd">        list of participant names  </span>
+<span class="sd">    names_dict: dict  </span>
+<span class="sd">        Key: Name, Value: Email address of Name  </span>
+<span class="sd">    email: str  </span>
+<span class="sd">        Email address to send from  </span>
+<span class="sd">    password: str  </span>
+<span class="sd">        Password of email address  </span>
+<span class="sd">    exchange_date: str (default is None)  </span>
+<span class="sd">        Date of the gift exchange; can be None if exchange date is undecided  </span>
+<span class="sd">    test: bool (default is False)  </span>
+<span class="sd">        If True, do not send an actual email and only print to stdout, else actually send an email  </span>
 
-<span class="sd">    Output: True upon completion</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool  </span>
+<span class="sd">        True upon completion  </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># first person gifts to last name in &#39;names list</span>
     <span class="n">gifter</span> <span class="o">=</span> <span class="n">names_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">gifter_email</span> <span class="o">=</span> <span class="n">names_dict</span><span class="p">[</span><span class="n">gifter</span><span class="p">]</span>
     <span class="n">recipient</span> <span class="o">=</span> <span class="n">names_list</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">names_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="n">send_email</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">)</span>
+    <span class="c1"># compose a message based on the selected gifter and recipient</span>
+    <span class="n">message_body</span> <span class="o">=</span> <span class="n">compose_message</span><span class="p">(</span><span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">test</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">message_body</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">send_email</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">message_body</span><span class="p">)</span>
     <span class="c1"># everyone else gifts to the person above them in names_list</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">names_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">names_list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">names_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>  <span class="c1"># All gifts processed; prevents out of range error</span>
+            <span class="k">continue</span>
         <span class="n">gifter</span> <span class="o">=</span> <span class="n">names_list</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
         <span class="n">gifter_email</span> <span class="o">=</span> <span class="n">names_dict</span><span class="p">[</span><span class="n">gifter</span><span class="p">]</span>
         <span class="n">recipient</span> <span class="o">=</span> <span class="n">names_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">send_email</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">)</span>
+        <span class="n">message_body</span> <span class="o">=</span> <span class="n">compose_message</span><span class="p">(</span><span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">test</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">message_body</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">send_email</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">message_body</span><span class="p">)</span>
     <span class="k">return</span> <span class="bp">True</span>
 </pre></div>
 
@@ -1495,21 +1665,32 @@ as a string or None</p>
 
     
   
-    <div class="desc"><p>Generates a dictionary of dictionaries where each entry is a dict of the form:
+    <div class="desc"><p>Generates a dictionary where each entry is a dict of the form:<br />
     d[Name] = List of names they can't be matched with</p>
-<p>Input: file name of exceptions</p>
-<p>Return Value: dictionary of dictionaries</p></div>
+<h2>Parameters</h2>
+<p>fname: str<br />
+    File path to CSV of the form [name, person to exclude_1, ..., person to exclude_n] in the cwd  </p>
+<h2>Returns</h2>
+<p>dict:<br />
+    Key: Name, Value: List of names to exclude</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-secret_santa.generate_exceptions_dict', this);">Show source &equiv;</a></p>
   <div id="source-secret_santa.generate_exceptions_dict" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">generate_exceptions_dict</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generates a dictionary of dictionaries where each entry is a dict of the form:</span>
+<span class="sd">    Generates a dictionary where each entry is a dict of the form:  </span>
 <span class="sd">        d[Name] = List of names they can&#39;t be matched with</span>
 
-<span class="sd">    Input: file name of exceptions</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname: str  </span>
+<span class="sd">        File path to CSV of the form [name, person to exclude_1, ..., person to exclude_n] in the cwd  </span>
 
-<span class="sd">    Return Value: dictionary of dictionaries</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict:  </span>
+<span class="sd">        Key: Name, Value: List of names to exclude  </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">None</span>
@@ -1517,16 +1698,13 @@ as a string or None</p>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">contents</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">l</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">ex</span> <span class="ow">in</span> <span class="n">contents</span><span class="p">:</span>
+            <span class="n">names_to_exclude</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ex</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">contents</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">name</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">d</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="n">names_to_exclude</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">names_to_exclude</span>
     <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">d</span>
 </pre></div>
@@ -1545,19 +1723,30 @@ as a string or None</p>
 
     
   
-    <div class="desc"><p>Generates a dict of the form d[name] = email from a text file.</p>
-<p>Input: text file name in cwd</p>
-<p>Output: populated dictionary</p></div>
+    <div class="desc"><p>Generates a dict of the form d[name] = email from a csv file.</p>
+<h2>Parameters</h2>
+<p>fname: str<br />
+    File path to CSV of the form [name, email address] in the cwd  </p>
+<h2>Returns</h2>
+<p>dict<br />
+    key: name, value: email</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-secret_santa.generate_names_dictionary', this);">Show source &equiv;</a></p>
   <div id="source-secret_santa.generate_names_dictionary" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">generate_names_dictionary</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generates a dict of the form d[name] = email from a text file.</span>
+<span class="sd">    Generates a dict of the form d[name] = email from a csv file.</span>
 
-<span class="sd">    Input: text file name in cwd</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fname: str  </span>
+<span class="sd">        File path to CSV of the form [name, email address] in the cwd  </span>
 
-<span class="sd">    Output: populated dictionary</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict  </span>
+<span class="sd">        key: name, value: email  </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -1584,28 +1773,28 @@ as a string or None</p>
 
     
   
-    <div class="desc"><p>Processes commandline parameters for dynamic use of email, password, and csv file containing 
-names and emails. Not adaptable to other scripts in its hard-coded form.</p>
-<p>Input: None (hard-coded with the function)</p>
-<p>Output: email,password,fname as strings</p></div>
+    <div class="desc"><p>Processes commandline parameters for dynamic use of email, password, csv files, and exchange date.
+Not adaptable to other scripts in its hard-coded form.</p>
+<h2>Returns</h2>
+<p>tuple: (str, str, str, str, str)<br />
+    email, password, and names csv, exceptions csv, and exchange date</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-secret_santa.process_commandline_parameters', this);">Show source &equiv;</a></p>
   <div id="source-secret_santa.process_commandline_parameters" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">process_commandline_parameters</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Processes commandline parameters for dynamic use of email, password, and csv file containing </span>
-<span class="sd">    names and emails. Not adaptable to other scripts in its hard-coded form.</span>
+<span class="sd">    Processes commandline parameters for dynamic use of email, password, csv files, and exchange date.</span>
+<span class="sd">    Not adaptable to other scripts in its hard-coded form.</span>
 
-<span class="sd">    Input: None (hard-coded with the function)</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple: (str, str, str, str, str)  </span>
+<span class="sd">        email, password, and names csv, exceptions csv, and exchange date  </span>
 
-<span class="sd">    Output: email,password,fname as strings</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">options</span><span class="p">,</span> <span class="n">arguments</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">&quot;e:p:n:x:d:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;email=&quot;</span><span class="p">,</span> <span class="s2">&quot;password=&quot;</span><span class="p">,</span> <span class="s2">&quot;names=&quot;</span><span class="p">,</span> <span class="s2">&quot;exceptions=&quot;</span><span class="p">,</span> <span class="s2">&quot;date=&quot;</span><span class="p">]</span>
-        <span class="p">)</span>
-    <span class="k">except</span> <span class="n">getopt</span><span class="o">.</span><span class="n">GetoptError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="n">options</span><span class="p">,</span> <span class="n">arguments</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">&quot;e:p:n:x:d:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;email=&quot;</span><span class="p">,</span> <span class="s2">&quot;password=&quot;</span><span class="p">,</span> <span class="s2">&quot;names=&quot;</span><span class="p">,</span> <span class="s2">&quot;exceptions=&quot;</span><span class="p">,</span> <span class="s2">&quot;date=&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
     <span class="k">for</span> <span class="n">o</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="s2">&quot;--email&quot;</span><span class="p">):</span>
             <span class="n">email</span> <span class="o">=</span> <span class="n">a</span>
@@ -1621,15 +1810,15 @@ names and emails. Not adaptable to other scripts in its hard-coded form.</p>
             <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Unhandled option; ignoring {1}&quot;</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">email</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
         <span class="n">email</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Sender&#39;s email: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">password</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
         <span class="n">password</span> <span class="o">=</span> <span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Password for sender&#39;s email: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">names_fname</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
         <span class="n">generic_names_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;names.csv&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">generic_names_file</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
             <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Using names.csv from cwd&quot;</span><span class="p">)</span>
@@ -1638,22 +1827,22 @@ names and emails. Not adaptable to other scripts in its hard-coded form.</p>
             <span class="n">names_fname</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;File containing names,emails: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">exceptions_fname</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
         <span class="n">generic_exceptions_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;exceptions.csv&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">generic_exceptions_file</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
             <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Using exceptions.csv from cwd&quot;</span><span class="p">)</span>
             <span class="n">exceptions_fname</span> <span class="o">=</span> <span class="s2">&quot;exceptions.csv&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">confirmE</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;No exceptions file provided (-x). Would you like to use one? &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">regex</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;[Yy]&quot;</span><span class="p">,</span> <span class="n">confirmE</span><span class="p">):</span>
+            <span class="n">confirm_exceptions_file</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;No exceptions file provided (-x). Would you like to use one? &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">regex</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;[Yy]&quot;</span><span class="p">,</span> <span class="n">confirm_exceptions_file</span><span class="p">):</span>
                 <span class="n">exceptions_fname</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;File name: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">exceptions_fname</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">exchange_date</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="n">confirmD</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Would you like to specify an exchange date?&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">regex</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;[Yy]&quot;</span><span class="p">,</span> <span class="n">confirmD</span><span class="p">):</span>
+    <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+        <span class="n">confirm_exchange_date</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Would you like to specify an exchange date?&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">regex</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;[Yy]&quot;</span><span class="p">,</span> <span class="n">confirm_exchange_date</span><span class="p">):</span>
             <span class="n">exchange_date</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Specify date however you would like it displayed: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">exchange_date</span> <span class="o">=</span> <span class="bp">None</span>
@@ -1668,41 +1857,65 @@ names and emails. Not adaptable to other scripts in its hard-coded form.</p>
       
   <div class="item">
     <div class="name def" id="secret_santa.send_email">
-    <p>def <span class="ident">send_email</span>(</p><p>from_address, from_password, gifter_email, gifter, recipient, exchange_date)</p>
+    <p>def <span class="ident">send_email</span>(</p><p>from_address, from_password, gifter_email, smtp_message)</p>
     </div>
     
 
     
   
     <div class="desc"><p>Sends Secret Santa email</p>
-<p>Input: Email address to send from, password of email address, email address to send to, gifter's name, recipient's
-name, exchange date as a string or None</p>
-<p>Output: True upon successful completion, else false</p>
-<p>Note: Successful execution of the function does not necessarily mean that an email was sent</p></div>
+<h2>Parameters</h2>
+<p>from_address: str<br />
+    Email address to send from<br />
+from_password: str<br />
+    Password for from_address email<br />
+gifter_email: str<br />
+    Email address to send to<br />
+smtp_message: str<br />
+    Message to email  </p>
+<h2>Returns</h2>
+<p>bool<br />
+    True upon successful completion, else False  </p>
+<h2>Notes</h2>
+<p>Successful execution of the function does not necessarily mean that an email was sent</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-secret_santa.send_email', this);">Show source &equiv;</a></p>
   <div id="source-secret_santa.send_email" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">send_email</span><span class="p">(</span><span class="n">from_address</span><span class="p">,</span> <span class="n">from_password</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">send_email</span><span class="p">(</span><span class="n">from_address</span><span class="p">,</span> <span class="n">from_password</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">smtp_message</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sends Secret Santa email</span>
 
-<span class="sd">    Input: Email address to send from, password of email address, email address to send to, gifter&#39;s name, recipient&#39;s</span>
-<span class="sd">    name, exchange date as a string or None</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    from_address: str  </span>
+<span class="sd">        Email address to send from  </span>
+<span class="sd">    from_password: str  </span>
+<span class="sd">        Password for from_address email  </span>
+<span class="sd">    gifter_email: str  </span>
+<span class="sd">        Email address to send to  </span>
+<span class="sd">    smtp_message: str  </span>
+<span class="sd">        Message to email  </span>
 
-<span class="sd">    Output: True upon successful completion, else false</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool  </span>
+<span class="sd">        True upon successful completion, else False  </span>
 
-<span class="sd">    Note: Successful execution of the function does not necessarily mean that an email was sent</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -------</span>
+<span class="sd">    Successful execution of the function does not necessarily mean that an email was sent  </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">message_body</span> <span class="o">=</span> <span class="n">compose_message</span><span class="p">(</span><span class="n">gifter</span><span class="p">,</span> <span class="n">recipient</span><span class="p">,</span> <span class="n">exchange_date</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">server</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP_SSL</span><span class="p">(</span><span class="s2">&quot;smtp.gmail.com&quot;</span><span class="p">,</span> <span class="mi">465</span><span class="p">)</span>
         <span class="n">server</span><span class="o">.</span><span class="n">ehlo</span><span class="p">()</span>
         <span class="n">server</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">from_address</span><span class="p">,</span> <span class="n">from_password</span><span class="p">)</span>
-        <span class="n">server</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">from_address</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">message_body</span><span class="p">)</span>
+        <span class="n">server</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">from_address</span><span class="p">,</span> <span class="n">gifter_email</span><span class="p">,</span> <span class="n">smtp_message</span><span class="p">)</span>
         <span class="n">server</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Email sent!&quot;</span><span class="p">)</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Error sending email to {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gifter_email</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">False</span>
     <span class="k">return</span> <span class="bp">True</span>
 </pre></div>

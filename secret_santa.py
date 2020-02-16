@@ -25,8 +25,8 @@ def process_commandline_parameters():
 
     Returns
     -------
-    tuple: (str, str, str, str, str)
-        email, password, and names csv, exceptions csv, and exchange date
+    tuple: (str, str, str, str, str)  
+        email, password, and names csv, exceptions csv, and exchange date  
 
     """
     options, arguments = getopt.getopt(
@@ -92,13 +92,13 @@ def generate_names_dictionary(fname):
 
     Parameters
     ----------
-    fname: str
-        File path to CSV of the form [name, email address] in the cwd
+    fname: str  
+        File path to CSV of the form [name, email address] in the cwd  
 
     Returns
     -------
-    dict
-        key: name, value: email
+    dict  
+        key: name, value: email  
 
     """
     d = dict()
@@ -114,18 +114,18 @@ def generate_names_dictionary(fname):
 
 def generate_exceptions_dict(fname):
     """
-    Generates a dictionary where each entry is a dict of the form:
+    Generates a dictionary where each entry is a dict of the form:  
         d[Name] = List of names they can't be matched with
 
     Parameters
     ----------
-    fname: str
-        File path to CSV of the form [name, person to exclude_1, ..., person to exclude_n] in the cwd
+    fname: str  
+        File path to CSV of the form [name, person to exclude_1, ..., person to exclude_n] in the cwd  
 
     Returns
     -------
-    dict:
-        Key: Name, Value: List of names to exclude
+    dict:  
+        Key: Name, Value: List of names to exclude  
 
     """
     if fname is None:
@@ -153,17 +153,17 @@ def Make_Selections(names, exceptions, upper_limit=10000):
 
     Parameters
     ----------
-    names: list
-        Names of participants
-    exceptions: dict
-        Key: Name, Value: List of names to exclude
-    upper_limit: int (default is 10000)
-        Max sorting attempts to execute
+    names: list  
+        Names of participants  
+    exceptions: dict  
+        Key: Name, Value: List of names to exclude  
+    upper_limit: int (default is 10000)  
+        Max sorting attempts to execute  
 
     Returns
     -------
-    bool
-        True if list was properly sorted, else False. Names list is mutated in new shuffled order
+    bool  
+        True if list was properly sorted, else False. Names list is mutated in new shuffled order  
 
     """
     list_sorted = False
@@ -181,15 +181,15 @@ def check_conditions(nlist, exceptionsDict):
 
     Parameters
     ----------
-    nlist: list
-        Names of participants
-    exceptionsDict: dict
-        Key: Name, Value: List of names to exclude
+    nlist: list  
+        Names of participants  
+    exceptionsDict: dict  
+        Key: Name, Value: List of names to exclude  
 
     Returns
     -------
-    bool
-        True if no exceptions are violated, else False
+    bool  
+        True if no exceptions are violated, else False  
 
     """
     for i in range(len(nlist)):  # Can also utilize enumerate()
@@ -211,17 +211,17 @@ def compose_message(gifter, recipient, exchange_date=None):
 
     Parameters
     ----------
-    gifter: str
-        Name of gifter
-    recipient: str
-        Name of gift recipient
-    exchange_date: str (default is None)
-        If provided, specifies the exchange date in the message
+    gifter: str  
+        Name of gifter  
+    recipient: str  
+        Name of gift recipient  
+    exchange_date: str (default is None)  
+        If provided, specifies the exchange date in the message  
 
     Returns
     -------
-    str
-        Message compatible with SMTP email
+    str  
+        Message compatible with SMTP email  
 
     """
     subject = "Secret Santa Assignment"
@@ -240,27 +240,27 @@ def send_email(from_address, from_password, gifter_email, gifter, recipient, exc
 
     Parameters
     ----------
-    from_address: str
-        Email address to send from
-    from_password: str
-        Password for from_address email
-    gifter_email: str
-        Email address to send to
-    gifter: str
-        Gifter's name
-    recipient: str
-        Recipient's name
-    exchange_date: str (default is None)
-        Date of the gift exchange; can be None if exchange date is undecided
+    from_address: str  
+        Email address to send from  
+    from_password: str  
+        Password for from_address email  
+    gifter_email: str  
+        Email address to send to  
+    gifter: str  
+        Gifter's name  
+    recipient: str  
+        Recipient's name  
+    exchange_date: str (default is None)  
+        Date of the gift exchange; can be None if exchange date is undecided  
 
     Returns
     -------
-    bool
-        True upon successful completion, else False
+    bool  
+        True upon successful completion, else False  
 
     Notes
     -------
-    Successful execution of the function does not necessarily mean that an email was sent
+    Successful execution of the function does not necessarily mean that an email was sent  
 
     """
     message_body = compose_message(gifter, recipient, exchange_date)
@@ -280,25 +280,25 @@ def send_email(from_address, from_password, gifter_email, gifter, recipient, exc
 
 def email_participants(names_list, names_dict, email, password, exchange_date=None):
     """
-    Informs participants who they have for Secret Santa via email
+    Informs participants who they have for Secret Santa via email  
 
     Parameters
     ----------
-    names_list: list
-        list of participant names
-    names_dict: dict
-        Key: Name, Value: Email address of Name
-    email: str
-        Email address to send from
-    password: str
-        Password of email address
-    exchange_date: str (default is None)
-        Date of the gift exchange; can be None if exchange date is undecided
+    names_list: list  
+        list of participant names  
+    names_dict: dict  
+        Key: Name, Value: Email address of Name  
+    email: str  
+        Email address to send from  
+    password: str  
+        Password of email address  
+    exchange_date: str (default is None)  
+        Date of the gift exchange; can be None if exchange date is undecided  
 
     Returns
     -------
-    bool
-        True upon completion
+    bool  
+        True upon completion  
 
     """
     # first person gifts to last name in 'names list

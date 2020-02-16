@@ -20,19 +20,18 @@ import re as regex
 
 def process_commandline_parameters():
     """
-    Processes commandline parameters for dynamic use of email, password, and csv file containing 
-    names and emails. Not adaptable to other scripts in its hard-coded form.
+    Processes commandline parameters for dynamic use of email, password, csv files, and exchange date.
+    Not adaptable to other scripts in its hard-coded form.
 
-    Input: None (hard-coded with the function)
+    Returns
+    -------
+    tuple: (str, str, str, str, str)
+        email, password, and names csv, exceptions csv, and exchange date
 
-    Output: email,password,fname as strings
     """
-    try:
-        options, arguments = getopt.getopt(
-            sys.argv[1:], "e:p:n:x:d:", ["email=", "password=", "names=", "exceptions=", "date="]
-        )
-    except getopt.GetoptError as err:
-        sys.exit(err)
+    options, arguments = getopt.getopt(
+        sys.argv[1:], "e:p:n:x:d:", ["email=", "password=", "names=", "exceptions=", "date="]
+    )
     for o, a in options:
         if o in ("-e", "--email"):
             email = a
@@ -48,15 +47,15 @@ def process_commandline_parameters():
             print("Unhandled option; ignoring {1}", o)
     try:
         email
-    except:
+    except NameError:
         email = input("Sender's email: ").strip()
     try:
         password
-    except:
+    except NameError:
         password = getpass("Password for sender's email: ").strip()
     try:
         names_fname
-    except:
+    except NameError:
         generic_names_file = pathlib.Path("names.csv")
         if generic_names_file.is_file():
             print("Using names.csv from cwd")
@@ -65,7 +64,7 @@ def process_commandline_parameters():
             names_fname = input("File containing names,emails: ").strip()
     try:
         exceptions_fname
-    except:
+    except NameError:
         generic_exceptions_file = pathlib.Path("exceptions.csv")
         if generic_exceptions_file.is_file():
             print("Using exceptions.csv from cwd")
@@ -78,7 +77,7 @@ def process_commandline_parameters():
                 exceptions_fname = None
     try:
         exchange_date
-    except:
+    except NameError:
         confirmD = input("Would you like to specify an exchange date?").strip()
         if regex.match("[Yy]", confirmD):
             exchange_date = input("Specify date however you would like it displayed: ").strip()
@@ -89,11 +88,18 @@ def process_commandline_parameters():
 
 def generate_names_dictionary(fname):
     """
-    Generates a dict of the form d[name] = email from a text file.
+    Generates a dict of the form d[name] = email from a csv file.
 
-    Input: text file name in cwd
+    Parameters
+    ----------
+    fname: str
+        File path to CSV of the form [name, email address] in the cwd
 
-    Output: populated dictionary
+    Returns
+    -------
+    dict
+        key: name, value: email
+
     """
     d = dict()
     with open(fname, "r") as f:
@@ -108,12 +114,19 @@ def generate_names_dictionary(fname):
 
 def generate_exceptions_dict(fname):
     """
-    Generates a dictionary of dictionaries where each entry is a dict of the form:
+    Generates a dictionary where each entry is a dict of the form:
         d[Name] = List of names they can't be matched with
 
-    Input: file name of exceptions
+    Parameters
+    ----------
+    fname: str
+        File path to CSV of the form [name, person to exclude_1, ..., person to exclude_n] in the cwd
 
-    Return Value: dictionary of dictionaries
+    Returns
+    -------
+    dict:
+        Key: Name, Value: List of names to exclude
+
     """
     if fname is None:
         return None
@@ -121,16 +134,15 @@ def generate_exceptions_dict(fname):
     with open(fname, "r") as f:
         for line in f:
             contents = line.strip().split(",")
-            i = 0
-            l = list()
-            for ex in contents:
+            names_to_exclude = list()
+            for i, ex in enumerate(contents):
                 if i == 0:
                     name = ex.strip()
                 else:
-                    l.append(ex.strip())
+                    names_to_exclude.append(ex.strip())
                 i += 1
-            d[name] = l
-            name = contents[0].strip()
+            d[name] = names_to_exclude
+            name = contents[0].strip()  # This seems unnecessary but I feel like I needed it; to be tested
     f.close()
     return d
 
@@ -139,9 +151,20 @@ def Make_Selections(names, exceptions, upper_limit=10000):
     """
     Makes the Secret Santa selections
 
-    Input: Names in a list, exceptions dict, upper limit of attempts to sort (default is 10000)
+    Parameters
+    ----------
+    names: list
+        Names of participants
+    exceptions: dict
+        Key: Name, Value: List of names to exclude
+    upper_limit: int (default is 10000)
+        Max sorting attempts to execute
 
-    Output: None; names list is mutated
+    Returns
+    -------
+    bool
+        True if list was properly sorted, else False. Names list is mutated in new shuffled order
+
     """
     list_sorted = False
     counter = 0
@@ -154,10 +177,22 @@ def Make_Selections(names, exceptions, upper_limit=10000):
 
 def check_conditions(nlist, exceptionsDict):
     """
-    Prevents people who shouldn't get each other from getting each other
-    ex. couples.
+    Check to prevent people who shouldn't get each other from getting each other, ex. couples
+
+    Parameters
+    ----------
+    nlist: list
+        Names of participants
+    exceptionsDict: dict
+        Key: Name, Value: List of names to exclude
+
+    Returns
+    -------
+    bool
+        True if no exceptions are violated, else False
+
     """
-    for i in range(len(nlist)):
+    for i in range(len(nlist)):  # Can also utilize enumerate()
         name = nlist[i]
         if name in exceptionsDict:
             exceptions = exceptionsDict[name]
@@ -170,13 +205,24 @@ def check_conditions(nlist, exceptionsDict):
     return True
 
 
-def compose_message(gifter, recipient, exchange_date):
+def compose_message(gifter, recipient, exchange_date=None):
     """
     Generates the content of the Secret Santa email.
 
-    Input: gifter, recipient, exchange date (can be none)
+    Parameters
+    ----------
+    gifter: str
+        Name of gifter
+    recipient: str
+        Name of gift recipient
+    exchange_date: str (default is None)
+        If provided, specifies the exchange date in the message
 
-    Output: message compatible with smtp email
+    Returns
+    -------
+    str
+        Message compatible with SMTP email
+
     """
     subject = "Secret Santa Assignment"
     Assignment = "{}, \n\nYou have been assigned to be {}'s Secret Santa!".format(gifter, recipient)
@@ -188,16 +234,34 @@ def compose_message(gifter, recipient, exchange_date):
     return message
 
 
-def send_email(from_address, from_password, gifter_email, gifter, recipient, exchange_date):
+def send_email(from_address, from_password, gifter_email, gifter, recipient, exchange_date=None):
     """
     Sends Secret Santa email
 
-    Input: Email address to send from, password of email address, email address to send to, gifter's name, recipient's
-    name, exchange date as a string or None
+    Parameters
+    ----------
+    from_address: str
+        Email address to send from
+    from_password: str
+        Password for from_address email
+    gifter_email: str
+        Email address to send to
+    gifter: str
+        Gifter's name
+    recipient: str
+        Recipient's name
+    exchange_date: str (default is None)
+        Date of the gift exchange; can be None if exchange date is undecided
 
-    Output: True upon successful completion, else false
+    Returns
+    -------
+    bool
+        True upon successful completion, else False
 
-    Note: Successful execution of the function does not necessarily mean that an email was sent
+    Notes
+    -------
+    Successful execution of the function does not necessarily mean that an email was sent
+
     """
     message_body = compose_message(gifter, recipient, exchange_date)
     try:
@@ -207,20 +271,35 @@ def send_email(from_address, from_password, gifter_email, gifter, recipient, exc
         server.sendmail(from_address, gifter_email, message_body)
         server.close()
         print("Email sent!")
-    except:
+    except Exception as e:
         print("Error sending email to {}".format(gifter_email))
+        print(e)
         return False
     return True
 
 
-def email_participants(names_list, names_dict, email, password, exchange_date):
+def email_participants(names_list, names_dict, email, password, exchange_date=None):
     """
     Informs participants who they have for Secret Santa via email
 
-    Input: Names as a list, dict of d[name] = email, email address to send from, password of email address, exchange date
-    as a string or None
+    Parameters
+    ----------
+    names_list: list
+        list of participant names
+    names_dict: dict
+        Key: Name, Value: Email address of Name
+    email: str
+        Email address to send from
+    password: str
+        Password of email address
+    exchange_date: str (default is None)
+        Date of the gift exchange; can be None if exchange date is undecided
 
-    Output: True upon completion
+    Returns
+    -------
+    bool
+        True upon completion
+
     """
     # first person gifts to last name in 'names list
     gifter = names_list[0]
@@ -237,7 +316,10 @@ def email_participants(names_list, names_dict, email, password, exchange_date):
 
 
 if __name__ == "__main__":
-    email, password, fname, exceptions_fname, exchange_date = process_commandline_parameters()
+    try:
+        email, password, fname, exceptions_fname, exchange_date = process_commandline_parameters()
+    except getopt.GetoptError as err:
+        sys.exit(err)
     names_dictionary = generate_names_dictionary(fname)
     exceptions_dictionary = generate_exceptions_dict(exceptions_fname)
     names_list = list(names_dictionary.keys())

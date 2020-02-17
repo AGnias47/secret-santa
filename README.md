@@ -30,7 +30,7 @@ Name,Email
 
 If not provided, the script will look for "names.csv" in the cwd and will use it if it exists. If not, will prompt the user for a filename.
 
-See "names.csv" in this repo for an example.
+See "test/names.csv" in this repo for an example.
 
 ### -x or --exceptions (optional parameter)
 Flat file containing pairings which should not occur in the form:
@@ -43,7 +43,7 @@ Note that if A should not get B and B should not get A, both of these exceptions
 
 If not provided, the script will look for "exceptions.csv" in the cwd and will use it if it exists. If not, will ask the user if they would like to use an exceptions file. If they type anything starting with the letter y, (ex. yes or Y), the user will be prompted for the name of the exceptions file. If not, the script will continue without any exceptions.
 
-See "exceptions.csv" in this repo for an example.
+See "test/exceptions.csv" in this repo for an example.
 
 ### -d or --date (optional parameter)
 Date when the Secret Santa gift exchange will occur. If not provided, script will ask if the user would like to provide

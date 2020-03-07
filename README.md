@@ -55,7 +55,9 @@ no date will be provided in the email sent to the participant.
 
 ## Functionality Description
 ### Function Documentation
-[Function Documentation generated from docstrings using pdoc](function_definitions.html)
+ * [Secret Santa Function Documentation generated from docstrings using pdoc](secret_santa_functions.html)
+ * [Send Emails Function Documentation generated from docstrings using pdoc](send_emails_functions.html)
+
 
 ### The Algorithm
 While effective in most situations, the method for selecting Secret Santa pairs is relatively unsophisticated. The program will take the list of names and put them in a random order using the Python shuffle method, which utilizes the [Fisher-Yates shuffle and runs in O(n) time](https://softwareengineering.stackexchange.com/questions/215737/how-python-random-shuffle-works). Random numbers for this shuffle are generated using a [Wichman-Hill random number generator](https://en.wikipedia.org/wiki/Wichmann%E2%80%93Hill). Using this list, the first person in the list is assigned to give a gift to the last person in the list, and everyone else is assigned to give a gift to the person before them. Note that with this implementation, there are no closed cycles of gift giving, i.e. a scenario where A gives to B and B gives to A will never occur in a list with more than 2 names.
@@ -76,4 +78,19 @@ Work section for plans to move away from SMTP.
 ## Future Work
 Based on usage from the last Secret Santa, I'm going to attempt to utilize AWS or some other email service to send out
 emails. Using SMTP via Gmail sent the emails to my participants' spam folders, which was not ideal.
+
+## AWS SES Email
+### Setup
+Follow the steps provided by [Amazon Web
+Services](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-using-sdk-python.html) to configure
+Amazon SES for sending emails.
+### AWS Config file
+
+~/.aws/credentials
+```
+[default]
+aws_access_key_id = <key>
+aws_secret_access_key = <secret key>
+region=us-east-1 <default is us-east-1>
+```
 

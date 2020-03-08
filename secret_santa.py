@@ -28,6 +28,16 @@ class MissingRequiredArgument(Exception):
         super().__init__(msg)
 
 
+class FlagConflict(Exception):
+    """
+    Raise this exception if conflicting flags are provided
+    """
+
+    def __init__(self, msg=None):
+        super().__init__(msg)
+
+
+
 def process_commandline_parameters():
     """
     Processes commandline parameters for dynamic use of email, password, csv files, and exchange date.
@@ -55,6 +65,8 @@ def process_commandline_parameters():
         raise MissingRequiredArgument(
             "Email Protocol must be explicitly set, either --gmail or --ses. See README for further details"
         )
+    if args.gmail and args.ses:
+        raise FlagConflict("Only one of --gmail or --ses can be provided")
     if args.email:
         email = args.email
     else:
@@ -303,7 +315,7 @@ if __name__ == "__main__":
             exchange_date,
             send_email_function,
         ) = process_commandline_parameters()
-    except MissingRequiredArgument as err:
+    except (MissingRequiredArgument, FlagConflict) as err:
         sys.exit(err)
     # Read values from files provided
     try:

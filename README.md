@@ -10,15 +10,19 @@ to give a gift to via email.
 ## Usage
 ```
 wget https://github.com/AGnias47/Secret_Santa/blob/master/secret_santa.py
-python3 secret_santa.py -e sender@email.com -n names.csv -x exceptions.csv -d "12/25/2020"
+python3 secret_santa.py --ses -e sender@email.com -n names.csv -x exceptions.csv -d "12/25/2020"
 ```
 
 
 ## Inputs
+### --ses or --gmail flag
+Necessary for running the script. Specify whether emails will be sent via Gmail SMTP or Amazon SES mail protocol. See
+section on sending emails for more information.
+
 ### -e or --email
 Email from which all participant emails will be sent. If not provided, will be prompted for on the command line.
 
-### -p or --password
+### -p or --password (Note: only used with Gmail SMTP)
 Password for the provided email. If not provided, will be prompted for on the command line. Password input will be masked.
 
 ### -n or --names
@@ -67,30 +71,29 @@ After the list of names is shuffled, the program will perform a check to ensure 
 Note that this method could lead to long program runtimes if given a large list of names with many inter-connected exclusions, and would also run infinitely if a scenario was given in which no valid set of parings could be made. To prevent an infinite run time, a maximum number of iterations is currently set by default (10000) and can be overridden by modifying the program. However, the program should suit most scenarios. Runtime for a group of ~15 people has always completed seemingly instantaneously during the work of this algorithm, so at this time there are no plans to improve it.
 
 ### Sending Emails
-Emails are currently sent through the Simple Mail Transfer Protocol using Python's smtplib. Since SMTP is open to man in
-the middle attacks, common email servers, such as gmail, will fail to send an email using this script by default because
-it poses a security risk. In Gmail, you can work around this by logging into your Gmail account and going to
-[https://myaccount.google.com/lesssecureapps](https://myaccount.google.com/lesssecureapps), and enabling it while the 
-script runs. The current method of running this script has been to allow less secure apps via Gmail, run the script, and 
-then continue blocking less secure apps, which limits the time exposed to less secure apps to a minimum. See the Future
-Work section for plans to move away from SMTP.
-
-## Future Work
-Based on usage from the last Secret Santa, I'm going to attempt to utilize AWS or some other email service to send out
-emails. Using SMTP via Gmail sent the emails to my participants' spam folders, which was not ideal.
-
-## AWS SES Email
-### Setup
+#### AWS SES Email
+##### Setup
 Follow the steps provided by [Amazon Web
 Services](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-using-sdk-python.html) to configure
 Amazon SES for sending emails.
-### AWS Config file
-
-~/.aws/credentials
+##### AWS Config file
+A config file containing the Secret Key and Secret Access Key is necessary to send emails through this method. The
+config file is located in ```~/.aws/credentials``` and should be formatted as follows (unless specified differently in
+the AWS link above):
 ```
 [default]
 aws_access_key_id = <key>
 aws_secret_access_key = <secret key>
 region=us-east-1 <default is us-east-1>
 ```
+
+#### Gmail SMTP
+Emails sent through Gmail are currently sent through the Simple Mail Transfer Protocol using Python's smtplib. Since SMTP is open to man in
+the middle attacks, common email servers, such as gmail, will fail to send an email using this script by default because
+it poses a security risk. In Gmail, you can work around this by logging into your Gmail account and going to
+[https://myaccount.google.com/lesssecureapps](https://myaccount.google.com/lesssecureapps), and enabling it while the 
+script runs. The current method of running this script using Gmail has been to allow less secure apps via Gmail, run the script, and 
+then continue blocking less secure apps, which limits the time exposed to less secure apps to a minimum. To avoid this,
+it is recommended to use Amazon SES.
+
 

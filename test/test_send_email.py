@@ -11,15 +11,15 @@
 import sys
 
 sys.path.append("../")
-import secret_santa
-
+import send_emails
 
 from_address = None
 from_password = None
 gifter_email = from_address
 
 subject = "Secret Santa Assignment"
-body = "This is a test message"
-message = "Subject: {}\n\n{}".format(subject, body)
+message_gmail = "This is a test message from Gmail SMTP"
+message_ses = "This is a test message from Amazon SES"
+send_emails.send_gmail_smtp_email((from_address, from_password), gifter_email, subject, message_gmail)
+send_emails.send_amazon_ses_email(from_address, gifter_email, subject, message_ses)
 
-secret_santa.send_email(from_address, from_password, gifter_email, message)

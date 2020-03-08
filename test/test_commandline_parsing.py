@@ -14,9 +14,12 @@ sys.path.append("../")
 import secret_santa
 
 
-email, password, names_fname, exceptions_fname, exchange_date = secret_santa.process_commandline_parameters()
-print(f"Email: {email}")
-print(f"Password: {password}")
+email, names_fname, exceptions_fname, exchange_date, email_function = secret_santa.process_commandline_parameters()
+if isinstance(email, tuple):
+    print(f"Email: {email[0], email[1]}")
+else:
+    print(f"Email: {email}")
 print(f"Names csv: {names_fname}")
 print(f"Exceptions csv: {exceptions_fname}")
 print(f"Exchange date: {exchange_date}")
+print(f"Function: {email_function.__name__}")

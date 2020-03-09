@@ -8,15 +8,14 @@ to give a gift to via email.
  * Pip 3
  * Method for sending emails (ex. Amazon SES, Gmail account)
 ### Pip Requirements
-boto3>=1.12.16
-botocore>=1.15.16
-docutils>=0.15.2
-jmespath>=0.9.5
-python-dateutil>=2.8.1
-s3transfer>=0.3.3
-six>=1.14.0
-urllib3>=1.25.8
-
+boto3>=1.12.16  
+botocore>=1.15.16  
+docutils>=0.15.2  
+jmespath>=0.9.5  
+python-dateutil>=2.8.1  
+s3transfer>=0.3.3  
+six>=1.14.0  
+urllib3>=1.25.8  
 
 ## Usage
 ```

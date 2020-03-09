@@ -3,8 +3,19 @@ Python script to manage Secret Santa selections. Makes selections, and then aler
 to give a gift to via email.
 
 ## Requirements
+### System Requirements
  * Python 3
- * Method for sending emails (ex. Gmail account)
+ * Pip 3
+ * Method for sending emails (ex. Amazon SES, Gmail account)
+### Pip Requirements
+boto3>=1.12.16
+botocore>=1.15.16
+docutils>=0.15.2
+jmespath>=0.9.5
+python-dateutil>=2.8.1
+s3transfer>=0.3.3
+six>=1.14.0
+urllib3>=1.25.8
 
 
 ## Usage
@@ -64,7 +75,7 @@ no date will be provided in the email sent to the participant.
 
 
 ### The Algorithm
-While effective in most situations, the method for selecting Secret Santa pairs is relatively unsophisticated. The program will take the list of names and put them in a random order using the Python shuffle method, which utilizes the [Fisher-Yates shuffle and runs in O(n) time](https://softwareengineering.stackexchange.com/questions/215737/how-python-random-shuffle-works). Random numbers for this shuffle are generated using a [Wichman-Hill random number generator](https://en.wikipedia.org/wiki/Wichmann%E2%80%93Hill). Using this list, the first person in the list is assigned to give a gift to the last person in the list, and everyone else is assigned to give a gift to the person before them. Note that with this implementation, there are no closed cycles of gift giving, i.e. a scenario where A gives to B and B gives to A will never occur in a list with more than 2 names.
+While relatively unsophisticated, the method for selecting Secret Santa pairs is effective in most situations. The program will take the list of names and put them in a random order using the Python shuffle method, which utilizes the [Fisher-Yates shuffle and runs in O(n) time](https://softwareengineering.stackexchange.com/questions/215737/how-python-random-shuffle-works). Random numbers for this shuffle are generated using a [Wichman-Hill random number generator](https://en.wikipedia.org/wiki/Wichmann%E2%80%93Hill). Using this list, the first person in the list is assigned to give a gift to the last person in the list, and everyone else is assigned to give a gift to the person before them. Note that with this implementation, there are no closed cycles of gift giving, i.e. a scenario where A gives to B and B gives to A will never occur in a list with more than 2 names.
 
 After the list of names is shuffled, the program will perform a check to ensure that no invalid pairings have been made, ex. someone is paired with someone on their exclude list. If an invalid paring is made, the shuffle is performed again. This process is repeated until a valid sort is performed. 
 

@@ -3,7 +3,7 @@ Python script to manage Secret Santa selections. Makes selections, and then aler
 to give a gift to via email.
 
 ## Requirements
-### System Requirements
+### General Requirements
  * Python 3
  * Pip 3
  * Method for sending emails (ex. Amazon SES, Gmail account)

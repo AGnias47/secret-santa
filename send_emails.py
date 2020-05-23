@@ -100,4 +100,3 @@ def send_gmail_smtp_email(sender, recipient, subject, body):
         print(e)
         return False
     return True
-

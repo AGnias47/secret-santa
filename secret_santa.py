@@ -37,7 +37,6 @@ class FlagConflict(Exception):
         super().__init__(msg)
 
 
-
 def process_commandline_parameters():
     """
     Processes commandline parameters for dynamic use of email, password, csv files, and exchange date.

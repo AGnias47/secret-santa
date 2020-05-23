@@ -1,4 +1,7 @@
 # Secret Santa Selection Manager
+
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 Python script to manage Secret Santa selections. Makes selections, and then alerts participants of who they are assigned
 to give a gift to via email.
 
@@ -107,5 +110,4 @@ it poses a security risk. In Gmail, you can work around this by logging into you
 script runs. The current method of running this script using Gmail has been to allow less secure apps via Gmail, run the script, and 
 then continue blocking less secure apps, which limits the time exposed to less secure apps to a minimum. To avoid this,
 it is recommended to use Amazon SES.
-
 

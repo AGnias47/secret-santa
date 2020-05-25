@@ -101,8 +101,8 @@ region=us-east-1 <default is us-east-1>
 ```
 
 #### Gmail SMTP
-Emails sent through Gmail are currently sent through the Simple Mail Transfer Protocol using Python's smtplib. Since SMTP is open to man in
-the middle attacks, common email servers, such as gmail, will fail to send an email using this script by default because
+Emails sent through Gmail are currently sent through the Simple Mail Transfer Protocol using Python's smtplib. Since
+SMTP is open to man-in-the-middle attacks, common email servers, such as gmail, will fail to send an email using this script by default because
 it poses a security risk. In Gmail, you can work around this by logging into your Gmail account and going to
 [https://myaccount.google.com/lesssecureapps](https://myaccount.google.com/lesssecureapps), and enabling it while the 
 script runs. The current method of running this script using Gmail has been to allow less secure apps via Gmail, run the script, and 

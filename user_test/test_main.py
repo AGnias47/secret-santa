@@ -10,15 +10,15 @@
 
 import sys
 
-sys.path.append("../")
-import secret_santa
+sys.path.append(".")
+from secret_santa import secret_santa
 
 
 if __name__ == "__main__":
-    names_dictionary = secret_santa.generate_names_dictionary("names.csv")
-    exceptions_dictionary = secret_santa.generate_exceptions_dict("exceptions.csv")
+    names_dictionary, addresses_dictionary = secret_santa.generate_names_dictionaries("user_test/names.csv")
+    exceptions_dictionary = secret_santa.generate_exceptions_dict("user_test/exceptions.csv")
     names_list = list(names_dictionary.keys())
     check_success = secret_santa.make_selections(names_list, exceptions_dictionary)  # The Algorithm
     if not check_success:
         sys.exit("Secret Santa selections were unable to be made with the inputs provided")
-    secret_santa.email_participants(names_list, names_dictionary, None, None, None, True)
+    secret_santa.email_participants(names_list, names_dictionary, addresses_dictionary, None, None, True)

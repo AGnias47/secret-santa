@@ -8,6 +8,7 @@
 #   Python 3.7.5
 #   Vim 8.0
 import sys
+
 sys.path.append(".")
 from secret_santa.secret_santa import process_commandline_parameters
 

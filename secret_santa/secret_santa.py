@@ -9,7 +9,6 @@
 #    Python 3.7.5
 #
 
-from secret_santa.Exceptions import MissingRequiredArgument, FlagConflict
 from send_email.gmail_smtp import send_email
 
 import argparse
@@ -286,15 +285,7 @@ def email_participants(names_list, names_dict, addresses_dict, email, exchange_d
 
 if __name__ == "__main__":
     # Get command line parameters
-    try:
-        (
-            sender_email,
-            names_fname,
-            exceptions_fname,
-            exchange_date,
-        ) = process_commandline_parameters()
-    except (MissingRequiredArgument, FlagConflict) as err:
-        sys.exit(err)
+    sender_email, names_fname, exceptions_fname, exchange_date = process_commandline_parameters()
     # Read values from files provided
     try:
         names_dictionary, address_dictionary = generate_names_dictionaries(names_fname)

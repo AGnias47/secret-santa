@@ -1,38 +1,45 @@
 #!/usr/bin/env python3
 
+from secret_santa.Participant import create_participant_list
+from secret_santa.selections import make_selections
+
 import pytest
-from secret_santa.secret_santa import generate_names_dictionaries, generate_exceptions_dict, make_selections
+
+
+def get_email(name, participant_list):
+    return next(filter(lambda x: x.name == name, participant_list)).email
+
+
+def get_address(name, participant_list):
+    return next(filter(lambda x: x.name == name, participant_list)).address
+
+
+def get_exceptions(name, participant_list):
+    return next(filter(lambda x: x.name == name, participant_list)).exceptions
 
 
 def test_generate_names_dictionaries():
-    names_and_emails, names_and_addresses = generate_names_dictionaries("test/names.csv")
-    assert names_and_emails["Andy"] == "andy@aol.com"
-    assert names_and_emails["Bill"] == "bill@html.com"
-    assert names_and_emails["Camille"] == "Cam@aol.com"
-    assert names_and_emails["Daryl"] == "Daryl@gmail.com"
-    assert names_and_emails["Elias"] == "elias@gmail.com"
-    assert names_and_addresses["Andy"] == "123 Main Street, King of Prussia, PA 19406"
-    assert names_and_addresses["Bill"] is None
-    assert names_and_addresses["Camille"] == "45 A Rockefeller Plaza, New York, NY 10096"
-    assert names_and_addresses["Daryl"] is None
-    assert names_and_addresses["Elias"] is None
-
-
-def test_generate_exceptions_dict_no_file():
-    assert generate_exceptions_dict(None) is None
-
-
-def test_generate_exceptions_dict():
-    exceptions = generate_exceptions_dict("test/exceptions.csv")
-    assert 2 == len(exceptions)
-    assert ["Elias", "Daryl"] == exceptions["Andy"]
-    assert ["Andy"] == exceptions["Elias"]
+    participant_list = create_participant_list("test/names.csv")
+    assert get_email("Andy", participant_list) == "andy@aol.com"
+    assert get_email("Bill", participant_list) == "bill@html.com"
+    assert get_email("Camille", participant_list) == "Cam@aol.com"
+    assert get_email("Daryl", participant_list) == "Daryl@gmail.com"
+    assert get_email("Elias", participant_list) == "elias@gmail.com"
+    assert get_address("Andy", participant_list) == "123 Main Street, King of Prussia, PA 19406"
+    assert get_address("Bill", participant_list) is None
+    assert get_address("Camille", participant_list) == "45 A Rockefeller Plaza, New York, NY 10096"
+    assert get_address("Daryl", participant_list) is None
+    assert get_address("Elias", participant_list) is None
+    assert get_exceptions("Andy", participant_list) is None
+    assert get_exceptions("Bill", participant_list) is None
+    assert get_exceptions("Camille", participant_list) is None
+    assert get_exceptions("Daryl", participant_list) is None
+    assert get_exceptions("Elias", participant_list) is None
 
 
 def test_make_selections():
-    names_and_emails, names_and_addresses = generate_names_dictionaries("test/names.csv")
-    exceptions = generate_exceptions_dict("test/exceptions.csv")
-    assert make_selections(list(names_and_emails.keys()), exceptions)
+    participants = create_participant_list("test/names.csv", "test/exceptions.csv")
+    assert make_selections(participants)
 
 
 if __name__ == "__main__":

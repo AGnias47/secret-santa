@@ -10,7 +10,7 @@
 import sys
 
 sys.path.append(".")
-from secret_santa.secret_santa import process_commandline_parameters
+from main import process_commandline_parameters
 
 
 email, names_fname, exceptions_fname, exchange_date = process_commandline_parameters()

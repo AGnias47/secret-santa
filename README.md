@@ -81,3 +81,12 @@ it poses a security risk. In Gmail, you can work around this by logging into you
 script runs. The current method of running this script using Gmail has been to allow less secure apps via Gmail, run the script, and 
 then continue blocking less secure apps, which limits the time exposed to less secure apps to a minimum. To avoid this,
 it is recommended to use Amazon SES.
+
+## Proposed Updates
+
+* A better algorithm
+    * Will likely utilize perfect matching in a graph. [Paths, Trees, and Flowers](https://math.nist.gov/~JBernal/p_t_f.pdf) was recommended in a Stackoverflow post so I'll likely look into that
+* React frontend
+* More secure method of sending emails
+* Sphinx documentation
+

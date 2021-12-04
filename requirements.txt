@@ -1,8 +1,4 @@
-attrs==21.2.0
-iniconfig==1.1.1
-packaging==21.3
-pluggy==1.0.0
-py==1.11.0
-pyparsing==3.0.6
+black==21.9b0
+coverage==6.2
 pytest==6.2.5
-toml==0.10.2
+pylint==2.12.2

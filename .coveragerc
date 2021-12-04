@@ -1,0 +1,10 @@
+[run]
+source = secret_santa/
+         send_email/
+[report]
+exclude_lines =
+    if 0:
+    if __name__ == .__main__.:
+ignore_errors = True
+[html]
+directory = coverage_html_report

@@ -2,14 +2,13 @@
 #
 #    Andy Gnias
 #
-#    main.py - Informs Secret Santa participants of their Secret Santa
-#    via email, making it blind from the person running the code.
+#    main.py - Informs Secret Santa participants of their Secret Santa via email
 #
-#    Kubuntu 5.16.5
-#    Python 3.7.5
+#    Kubuntu 5.21.4
+#    Python 3.9.5
 #
 
-from secret_santa.Participant import create_participant_list
+from secret_santa.Participant import create_participant_hash
 from secret_santa.selections import make_selections
 from secret_santa.email import Email
 
@@ -17,7 +16,6 @@ import argparse
 from getpass import getpass
 import pathlib
 import re as regex
-import sys
 
 
 def process_commandline_parameters():
@@ -76,24 +74,18 @@ def process_commandline_parameters():
     else:
         confirm_exchange_date = input("Would you like to specify an exchange date?").strip()
         if regex.match("[Yy]", confirm_exchange_date):
-            exchange_date_string = input("Specify date however you would like it displayed: ").strip()
+            exchange_date_string = input("Specify date however you would like integration_test displayed: ").strip()
         else:
             exchange_date_string = None
     return email, password, names_filename, exceptions_filename, exchange_date_string
 
 
 if __name__ == "__main__":
-    # Get command line parameters
     sender_email, sender_password, names_fname, exceptions_fname, exchange_date = process_commandline_parameters()
-    # Read values from files provided
-    participants = create_participant_list(names_fname, exceptions_fname)
-    # Determine Secret Santa assignments
-    check_success = make_selections(participants)  # The Algorithm
-    if not check_success:
-        sys.exit("Secret Santa selections were unable to be made with the inputs provided")
-    # Send emails informing participants of their assignment
+    participants = create_participant_hash(names_fname, exceptions_fname)
+    order = make_selections(participants)  # The Algorithm
     emailer = Email(sender_email, sender_password)
-    email_status = emailer.send_email(participants, exchange_date)
+    email_status = emailer.email_participants(participants, order, exchange_date)
     if all(email_status):
         print("All emails sent successfully")
     else:

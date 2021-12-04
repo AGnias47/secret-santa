@@ -1,11 +1,4 @@
 #!/usr/bin/python3
-#
-#   A. Gnias
-#
-#   Linux 4.18.0-18-generic #19-Ubuntu
-#   Python 3.7.5
-#   Vim 8.0
-
 
 import smtplib
 

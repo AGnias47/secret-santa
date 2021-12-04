@@ -7,34 +7,43 @@ def make_selections(participants, upper_limit=10000):
 
     Parameters
     ----------
-    participants: list(Participant)
-        List of participants
+    participants: dict
+        Hash table containing participants
     upper_limit: int (default is 10000)
         Max sorting attempts to execute
 
+    Raises
+    ------
+    RuntimeError: Raised if no valid order can be found
+
     Returns
     -------
-    bool
-        True if list was properly sorted, else False. Names list is mutated in new shuffled order
-
+    list
+        Order of names for Secret Santa
     """
+    order = list(participants.keys())
     list_sorted = False
     counter = 0
-    while not list_sorted and counter < upper_limit:  # shuffle list until it abides by conditions set
+    while not list_sorted and counter < upper_limit:  # shuffle list until integration_test abides by conditions set
         counter += 1
-        shuffle(participants)
-        list_sorted = check_conditions(participants)
-    return list_sorted
+        shuffle(order)
+        list_sorted = check_conditions(order, participants)
+    if list_sorted:
+        return order
+    else:
+        raise RuntimeError("Secret Santa selections were unable to be made with the inputs provided")
 
 
-def check_conditions(participants):
+def check_conditions(order, participants):
     """
     Check to prevent people who shouldn't get each other from getting each other, ex. couples
 
     Parameters
     ----------
-    participants: list(Participant)
-        List of participants
+    order: list
+        Name order of Participants
+    participants: dict
+        Hash table containing participants
 
     Returns
     -------
@@ -42,9 +51,9 @@ def check_conditions(participants):
         True if no exceptions are violated, else False
 
     """
-    if all(p.exceptions is None for p in participants):
+    if all(p.exceptions is None for p in list(participants.values())):
         return True
-    for i, participant in enumerate(participants):
-        if participant.exceptions and participants[i - 1] in participant.exceptions:
+    for i, p in enumerate(order):
+        if participants[p].exceptions and participants[order[i - 1]] in participants[p].exceptions:
             return False
     return True

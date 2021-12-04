@@ -6,40 +6,33 @@ class Email:
         self._email = (username, password)
         self._send_email = send_email_function
 
-    def email_participants(self, participants, exchange_date=None):
+    def email_participants(self, participants, order, exchange_date=None, subject="Secret Santa Assignment"):
         """
         Informs participants who they have for Secret Santa via email
 
         Parameters
         ----------
-        participants: list(Participants)
-            List of Participants
+        participants: dict
+            Hash table containing participants
+        order: list
+            Names in randomized order where order[i] = gift giver, order[i+1] = recipient (n+1 = 0)
         exchange_date: str (default is None)
             Date of the gift exchange; can be None if exchange date is undecided
-
+        subject: str (Default is "Secret Santa Assignment")
+            Subject of the email
         Returns
         -------
         list
             List of return values (True or False) from sending emails to participants
 
         """
-        subject = "Secret Santa Assignment"
         sent_emails_boolean_list = list()
-        # first person gifts to last name in 'names list
-        gifter = participants[0]
-        recipient = participants[len(participants) - 1]
-        # compose a message based on the selected gifter and recipient
-        message_body = compose_message_body(gifter, recipient, exchange_date)
-        status = self._send_email(self._email, gifter.email, subject, message_body)
-        sent_emails_boolean_list.append(status)
-        # everyone else gifts to the person above them in names_list
-        for i, participant in enumerate(participants):
-            if i == (len(participants) - 1):  # All gifts processed; prevents out of range error
-                continue
-            gifter = participants[i + 1]
-            recipient = participants[i]
-            message_body = compose_message_body(gifter, recipient, exchange_date)
-            status = self._send_email(self._email, gifter.email, subject, message_body)
+        # everyone gifts to the person above them in names_list, first person gifts to last
+        for i, _ in enumerate(order):
+            gift_giver = participants[order[(i + 1) % len(order)]]
+            recipient = participants[order[i]]
+            message_body = compose_message_body(gift_giver, recipient, exchange_date)
+            status = self._send_email(self._email, gift_giver.email, subject, message_body)
             sent_emails_boolean_list.append(status)
         return sent_emails_boolean_list
 
@@ -65,8 +58,10 @@ def compose_message_body(gift_giver, recipient, exchange_date=None):
     """
     message = f"{gift_giver.name}, \n\nYou have been assigned to be {recipient.name}'s Secret Santa!"
     if exchange_date:
-        message += " Please purchase a gift for them before the gift exchange on {}.".format(exchange_date)
+        message += f" Please purchase a gift for them before the gift exchange on {exchange_date}."
     if recipient.address:
-        message += f" If you are unable to give them the gift in person or at the gift exchange, please send a gift to them at {recipient.address}."
+        message += (
+            f" If you are unable to give them the gift in person or at the "
+            f"gift exchange, please send a gift to them at {recipient.address}."
+        )
     return message
-

@@ -11,7 +11,7 @@ to give a gift to via email.
 
 ## Usage
 ```
-wget https://github.com/AGnias47/Secret_Santa/blob/master/secret_santa.py
+wget https://github.com/AGnias47/Secret_Santa/blob/main/main.py
 python3 main.py -e sender@email.com -n names.csv -x exceptions.csv -d "12/25/2020"
 ```
 

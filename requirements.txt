@@ -1,5 +1,6 @@
 black==21.9b0
 coverage==6.2
+google-api-python-client==2.34.0
 m2r2==0.3.1
 pylint==2.12.2
 pytest==6.2.5

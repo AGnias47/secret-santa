@@ -12,16 +12,17 @@
 #
 import os
 import sys
+
 sys.path.append("../")
 
 # -- Project information -----------------------------------------------------
 
-project = 'Secret Santa Selections Manager'
-copyright = '2021, A. Gnias'
-author = 'A. Gnias'
+project = "Secret Santa Selections Manager"
+copyright = "2021, A. Gnias"
+author = "A. Gnias"
 
 # The full version, including alpha/beta/rc tags
-release = '6.1.2021'
+release = "6.1.2021"
 
 
 # -- General configuration ---------------------------------------------------
@@ -50,10 +51,9 @@ exclude_patterns = ["test/**", "main.py"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'press'
+html_theme = "press"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
-
+html_static_path = ["_static"]

@@ -5,12 +5,15 @@
 #    main.py - Informs Secret Santa participants of their Secret Santa via email
 #
 #    Kubuntu 5.21.4
-#    Python 3.9.5
+#    Python 3.9.7
 #
 
 from secret_santa.Participant import create_participant_hash
 from secret_santa.selections import make_selections
-from secret_santa.email import Email
+from secret_santa.email import email_participants
+from send_email.gmail_api import GmailApiSender
+from send_email.aws_ses import AwsSesSender
+from send_email.gmail_smtp import GmailSMTPSender
 
 import argparse
 from getpass import getpass
@@ -25,13 +28,14 @@ def process_commandline_parameters():
 
     Returns
     -------
-    tuple: (str / tuple, str, str, str, function)
-        email, password, names csv, exceptions csv, exchange date, and function for sending emails
+    tuple: (Object, str, str, str, function)
+        Class object for sending emails, names csv, exceptions csv, exchange date, and function for sending emails
 
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("-e", "--email", help="Sender's Email address")
     parser.add_argument("-p", "--password", help="Sender's Email password; only necessary for SMTP through Gmail")
+    parser.add_argument("-m", "--method", help="Method for sending emails; One of gmailapi (default), ses, or smtp.")
     parser.add_argument("-n", "--names", help="CSV containing participants names and email addresses")
     parser.add_argument(
         "-x", "--exceptions", help="CSV containing participant's name followed by people they should not be paired with"
@@ -42,11 +46,21 @@ def process_commandline_parameters():
         email = args.email
     else:
         email = input("Sender's email: ").strip()
-
-    if args.password:
-        password = args.password
+    if args.method:
+        if args.method.lower() == "gmailapi":
+            sender_object = GmailApiSender(email)
+        elif args.method.lower() == "ses":
+            sender_object = AwsSesSender(email)
+        elif args.method.lower() == "smtp":
+            if args.password:
+                password = args.password
+            else:
+                password = getpass("Password for sender's email: ").strip()
+            sender_object = GmailSMTPSender(email, password)
+        else:
+            raise ValueError("Invalid send method specified; must be one of gmailapi, ses, or smtp")
     else:
-        password = getpass("Password for sender's email: ").strip()
+        sender_object = GmailApiSender(email)
     if args.names:
         names_filename = args.names
     else:
@@ -77,15 +91,14 @@ def process_commandline_parameters():
             exchange_date_string = input("Specify date however you would like integration_test displayed: ").strip()
         else:
             exchange_date_string = None
-    return email, password, names_filename, exceptions_filename, exchange_date_string
+    return sender_object, names_filename, exceptions_filename, exchange_date_string
 
 
 if __name__ == "__main__":
-    sender_email, sender_password, names_fname, exceptions_fname, exchange_date = process_commandline_parameters()
+    sender, names_fname, exceptions_fname, exchange_date = process_commandline_parameters()
     participants = create_participant_hash(names_fname, exceptions_fname)
     order = make_selections(participants)  # The Algorithm
-    emailer = Email(sender_email, sender_password)
-    email_status = emailer.email_participants(participants, order, exchange_date)
+    email_status = email_participants(sender, participants, order, exchange_date)
     if all(email_status):
         print("All emails sent successfully")
     else:

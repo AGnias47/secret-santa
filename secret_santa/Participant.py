@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+
+"""
+Class for storing Secret Santa participants
+"""
+
+
 ENCODING = "UTF-8"
 
 

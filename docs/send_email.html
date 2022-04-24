@@ -101,14 +101,18 @@
 </div>
 <div class="section" id="module-send_email.gmail_smtp">
 <span id="send-email-gmail-smtp-module"></span><h2>send_email.gmail_smtp module<a class="headerlink" href="#module-send_email.gmail_smtp" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="send_email.gmail_smtp.send_email">
-<span class="sig-prename descclassname"><span class="pre">send_email.gmail_smtp.</span></span><span class="sig-name descname"><span class="pre">send_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#send_email.gmail_smtp.send_email" title="Permalink to this definition">¶</a></dt>
+<p>Module for sending emails via SMTP</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="send_email.gmail_smtp.GmailSMTPSender">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">send_email.gmail_smtp.</span></span><span class="sig-name descname"><span class="pre">GmailSMTPSender</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender_email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sender_password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">465</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smtp_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'smtp.gmail.com'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#send_email.gmail_smtp.GmailSMTPSender" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="send_email.gmail_smtp.GmailSMTPSender.send_email">
+<span class="sig-name descname"><span class="pre">send_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recipient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#send_email.gmail_smtp.GmailSMTPSender.send_email" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends an email through a Gmail account using the SMTP protocol</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sender</strong> (<em>tuple</em>) – Email address to send from, Password for email address</p></li>
 <li><p><strong>recipient</strong> (<em>str</em>) – Email address to send to</p></li>
 <li><p><strong>subject</strong> (<em>str</em>) – Subject of the email</p></li>
 <li><p><strong>body</strong> (<em>str</em>) – Body of the email</p></li>
@@ -125,6 +129,8 @@
 <p>Successful execution of the function does not necessarily mean that an email was sent</p>
 </dd></dl>
 
+</dd></dl>
+
 </div>
 <div class="section" id="module-send_email">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-send_email" title="Permalink to this headline">¶</a></h2>
@@ -138,7 +144,7 @@
 </ul><div class="footer" role="contentinfo">
       &#169; Copyright 2021, A. Gnias.
     <br>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
             </div>
           </div>

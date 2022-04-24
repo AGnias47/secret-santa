@@ -115,15 +115,15 @@ to give a gift to via email.</p>
 <div class="section" id="general-requirements">
 <h3>General Requirements<a class="headerlink" href="#general-requirements" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Python 3</p></li>
-<li><p>Method for sending emails (ex. Amazon SES, Gmail account)</p></li>
+<li><p>Python 3.7+</p></li>
+<li><p>Method for sending emails (ex. Gmail account, Amazon SES)</p></li>
 </ul>
 </div>
 </div>
-<div class="section" id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">AGnias47</span><span class="o">/</span><span class="n">Secret_Santa</span><span class="o">/</span><span class="n">blob</span><span class="o">/</span><span class="n">main</span><span class="o">/</span><span class="n">main</span><span class="o">.</span><span class="n">py</span>
-<span class="n">python3</span> <span class="n">main</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">e</span> <span class="n">sender</span><span class="nd">@email</span><span class="o">.</span><span class="n">com</span> <span class="o">-</span><span class="n">n</span> <span class="n">names</span><span class="o">.</span><span class="n">csv</span> <span class="o">-</span><span class="n">x</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">csv</span> <span class="o">-</span><span class="n">d</span> <span class="s2">&quot;12/25/2020&quot;</span>
+<div class="section" id="post-configuration-usage">
+<h2>Post-Configuration Usage<a class="headerlink" href="#post-configuration-usage" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://github.com/AGnias47/Secret_Santa/blob/main/main.py
+python3 main.py -e sender@email.com -n names.csv -x exceptions.csv -d <span class="s2">&quot;12/25/2020&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -136,6 +136,10 @@ to give a gift to via email.</p>
 <div class="section" id="p-or-password-note-only-used-with-gmail-smtp">
 <h3>-p or –password (Note: only used with Gmail SMTP)<a class="headerlink" href="#p-or-password-note-only-used-with-gmail-smtp" title="Permalink to this headline">¶</a></h3>
 <p>Password for the provided email. If not provided, will be prompted for on the command line. Password input will be masked.</p>
+</div>
+<div class="section" id="m-or-method">
+<h3>-m or –method<a class="headerlink" href="#m-or-method" title="Permalink to this headline">¶</a></h3>
+<p>Method for sending emails. Default is Gmail API</p>
 </div>
 <div class="section" id="n-or-names">
 <h3>-n or –names<a class="headerlink" href="#n-or-names" title="Permalink to this headline">¶</a></h3>
@@ -171,7 +175,19 @@ no date will be provided in the email sent to the participant.</p>
 </div>
 <div class="section" id="sending-emails">
 <h3>Sending Emails<a class="headerlink" href="#sending-emails" title="Permalink to this headline">¶</a></h3>
-<p>Emails are currently sent through SMTP using gmail. More secure methods may be implemented in a future release.</p>
+<p>Emails are currently sent through the Gmail API. Method for sending via SMTP and SES also exist.</p>
+<div class="section" id="gmail-api">
+<h4>Gmail API<a class="headerlink" href="#gmail-api" title="Permalink to this headline">¶</a></h4>
+<p>Configuration Steps:</p>
+<ul class="simple">
+<li><p>Create a project: <a class="reference external" href="https://developers.google.com/workspace/guides/create-project">https://developers.google.com/workspace/guides/create-project</a></p></li>
+<li><p>Enable the Gmail API</p></li>
+<li><p>Create an OAuth credential token with <a class="reference external" href="http://localhost:52381/">http://localhost:52381/</a> as an authorized redirect URI</p></li>
+<li><p>Download the credentials token and save to or override cred_path in GmailApiSender</p></li>
+<li><p>On first run, authenticate via browser</p></li>
+<li><p>Subsequent runs should run seamlessly</p></li>
+</ul>
+</div>
 <div class="section" id="gmail-smtp">
 <h4>Gmail SMTP<a class="headerlink" href="#gmail-smtp" title="Permalink to this headline">¶</a></h4>
 <p>Emails sent through Gmail are currently sent through the Simple Mail Transfer Protocol using Python’s smtplib. Since
@@ -181,6 +197,10 @@ it poses a security risk. In Gmail, you can work around this by logging into you
 script runs. The current method of running this script using Gmail has been to allow less secure apps via Gmail, run the script, and
 then continue blocking less secure apps, which limits the time exposed to less secure apps to a minimum. To avoid this,
 it is recommended to use Amazon SES.</p>
+</div>
+<div class="section" id="amazon-ses">
+<h4>Amazon SES<a class="headerlink" href="#amazon-ses" title="Permalink to this headline">¶</a></h4>
+<p>Not extensively tested, as less efficient and more difficult to configure than the Gmail API.</p>
 </div>
 </div>
 </div>
@@ -193,7 +213,6 @@ it is recommended to use Amazon SES.</p>
 </ul>
 </li>
 <li><p>React frontend</p></li>
-<li><p>More secure method of sending emails</p></li>
 </ul>
 </div>
 </div>

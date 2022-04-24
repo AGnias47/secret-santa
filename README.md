@@ -4,17 +4,18 @@ Python program to manage Secret Santa selections. Makes selections, and then ale
 to give a gift to via email.
 
 ## Requirements
+
 ### General Requirements
+
  * Python 3
- * Method for sending emails (ex. Amazon SES, Gmail account)
+ * Method for sending emails (ex. Gmail account, Amazon SES)
 
+## Post-Configuration Usage
 
-## Usage
-```
+```bash
 wget https://github.com/AGnias47/Secret_Santa/blob/main/main.py
 python3 main.py -e sender@email.com -n names.csv -x exceptions.csv -d "12/25/2020"
 ```
-
 
 ## Inputs
 
@@ -25,6 +26,10 @@ Email from which all participant emails will be sent. If not provided, will be p
 ### -p or --password (Note: only used with Gmail SMTP)
 
 Password for the provided email. If not provided, will be prompted for on the command line. Password input will be masked.
+
+### -m or --method
+
+Method for sending emails. Default is Gmail API
 
 ### -n or --names
 
@@ -70,7 +75,18 @@ Note that this method could lead to long program runtimes if given a large list 
 
 ### Sending Emails
 
-Emails are currently sent through SMTP using gmail. More secure methods may be implemented in a future release.
+Emails are currently sent through the Gmail API. Method for sending via SMTP and SES also exist.
+
+#### Gmail API
+
+Configuration Steps:
+
+* Create a project: https://developers.google.com/workspace/guides/create-project
+* Enable the Gmail API
+* Create an OAuth credential token with http://localhost:52381/ as an authorized redirect URI
+* Download the credentials token and save to or override cred_path in GmailApiSender
+* On first run, authenticate via browser
+* Subsequent runs should run seamlessly
 
 #### Gmail SMTP
 
@@ -82,10 +98,12 @@ script runs. The current method of running this script using Gmail has been to a
 then continue blocking less secure apps, which limits the time exposed to less secure apps to a minimum. To avoid this,
 it is recommended to use Amazon SES.
 
+#### Amazon SES
+
+Not extensively tested, as less efficient and more difficult to configure than the Gmail API.
+
 ## Proposed Updates
 
 * A better algorithm
     * Will likely utilize perfect matching in a graph. [Paths, Trees, and Flowers](https://math.nist.gov/~JBernal/p_t_f.pdf) was recommended in a Stackoverflow post so I'll likely look into that
 * React frontend
-* More secure method of sending emails
-

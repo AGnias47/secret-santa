@@ -7,7 +7,7 @@ to give a gift to via email.
 
 ### General Requirements
 
- * Python 3
+ * Python 3.7+
  * Method for sending emails (ex. Gmail account, Amazon SES)
 
 ## Post-Configuration Usage

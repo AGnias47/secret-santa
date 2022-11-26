@@ -2,7 +2,8 @@
 <html >
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
       <title>Secret Santa Selections Manager</title>
     
           <link rel="stylesheet" href="static/pygments.css" type="text/css" />
@@ -94,54 +95,54 @@
 <hr>
           <div class="content" role="main" v-pre>
             
-  <div class="section" id="secret-santa-selections-manager">
+  <section id="secret-santa-selections-manager">
 <h1>Secret Santa Selections Manager<a class="headerlink" href="#secret-santa-selections-manager" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-</div>
-<div class="section" id="indices-and-tables">
+</section>
+<section id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 </ul>
-</div>
-<div class="section" id="secret-santa-selection-manager">
+</section>
+<section id="secret-santa-selection-manager">
 <h1>Secret Santa Selection Manager<a class="headerlink" href="#secret-santa-selection-manager" title="Permalink to this headline">¶</a></h1>
 <p>Python program to manage Secret Santa selections. Makes selections, and then alerts participants of who they are assigned
 to give a gift to via email.</p>
-<div class="section" id="requirements">
+<section id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="general-requirements">
+<section id="general-requirements">
 <h3>General Requirements<a class="headerlink" href="#general-requirements" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Python 3.7+</p></li>
 <li><p>Method for sending emails (ex. Gmail account, Amazon SES)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="post-configuration-usage">
+</section>
+</section>
+<section id="post-configuration-usage">
 <h2>Post-Configuration Usage<a class="headerlink" href="#post-configuration-usage" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://github.com/AGnias47/Secret_Santa/blob/main/main.py
 python3 main.py -e sender@email.com -n names.csv -x exceptions.csv -d <span class="s2">&quot;12/25/2020&quot;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="inputs">
+</section>
+<section id="inputs">
 <h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="e-or-email">
+<section id="e-or-email">
 <h3>-e or –email<a class="headerlink" href="#e-or-email" title="Permalink to this headline">¶</a></h3>
 <p>Email from which all participant emails will be sent. If not provided, will be prompted for on the command line.</p>
-</div>
-<div class="section" id="p-or-password-note-only-used-with-gmail-smtp">
+</section>
+<section id="p-or-password-note-only-used-with-gmail-smtp">
 <h3>-p or –password (Note: only used with Gmail SMTP)<a class="headerlink" href="#p-or-password-note-only-used-with-gmail-smtp" title="Permalink to this headline">¶</a></h3>
 <p>Password for the provided email. If not provided, will be prompted for on the command line. Password input will be masked.</p>
-</div>
-<div class="section" id="m-or-method">
+</section>
+<section id="m-or-method">
 <h3>-m or –method<a class="headerlink" href="#m-or-method" title="Permalink to this headline">¶</a></h3>
 <p>Method for sending emails. Default is Gmail API</p>
-</div>
-<div class="section" id="n-or-names">
+</section>
+<section id="n-or-names">
 <h3>-n or –names<a class="headerlink" href="#n-or-names" title="Permalink to this headline">¶</a></h3>
 <p>Flat file containing the Secret Santa participant’s names and emails in the form:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Name</span><span class="p">,</span><span class="n">Email</span>
@@ -149,8 +150,8 @@ python3 main.py -e sender@email.com -n names.csv -x exceptions.csv -d <span clas
 </div>
 <p>If not provided, the script will look for “names.csv” in the cwd and will use it if it exists. If not, will prompt the user for a filename.</p>
 <p>See “test/names.csv” in this repo for an example.</p>
-</div>
-<div class="section" id="x-or-exceptions-optional-parameter">
+</section>
+<section id="x-or-exceptions-optional-parameter">
 <h3>-x or –exceptions (optional parameter)<a class="headerlink" href="#x-or-exceptions-optional-parameter" title="Permalink to this headline">¶</a></h3>
 <p>Flat file containing pairings which should not occur in the form:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Person</span> <span class="n">A</span><span class="p">,</span> <span class="n">Person</span> <span class="mi">1</span> <span class="n">who</span> <span class="n">should</span> <span class="ow">not</span> <span class="n">be</span> <span class="n">assigned</span> <span class="n">to</span> <span class="n">A</span><span class="p">,</span> <span class="n">Person</span> <span class="mi">2</span> <span class="n">who</span> <span class="n">should</span> <span class="ow">not</span> <span class="n">be</span> <span class="n">assigned</span> <span class="n">to</span> <span class="n">A</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">Person</span> <span class="n">n</span> <span class="n">who</span> <span class="n">should</span> <span class="ow">not</span> <span class="n">be</span> <span class="n">assigned</span> <span class="n">to</span> <span class="n">A</span>
@@ -159,36 +160,45 @@ python3 main.py -e sender@email.com -n names.csv -x exceptions.csv -d <span clas
 <p>Note that if A should not get B and B should not get A, both of these exceptions must be provided, i.e. saying A should not get B does not mean B cannot get A.</p>
 <p>If not provided, the script will look for “exceptions.csv” in the cwd and will use it if it exists. If not, will ask the user if they would like to use an exceptions file. If they type anything starting with the letter y, (ex. yes or Y), the user will be prompted for the name of the exceptions file. If not, the script will continue without any exceptions.</p>
 <p>See “test/exceptions.csv” in this repo for an example.</p>
-</div>
-<div class="section" id="d-or-date-optional-parameter">
+</section>
+<section id="d-or-date-optional-parameter">
 <h3>-d or –date (optional parameter)<a class="headerlink" href="#d-or-date-optional-parameter" title="Permalink to this headline">¶</a></h3>
 <p>Date when the Secret Santa gift exchange will occur. If not provided, script will ask if the user would like to provide
 an exchange date, using the same method (Y or yes) as the exclusions list question.</p>
 <p>If provided, the exchange date will be included in the email alerting participants of who their secret santa is. If not,
 no date will be provided in the email sent to the participant.</p>
-</div>
-<div class="section" id="the-algorithm">
+</section>
+<section id="the-algorithm">
 <h3>The Algorithm<a class="headerlink" href="#the-algorithm" title="Permalink to this headline">¶</a></h3>
 <p>While relatively unsophisticated, the method for selecting Secret Santa pairs is effective in most situations. The program will take the list of names and put them in a random order using the Python shuffle method, which utilizes the <a class="reference external" href="https://softwareengineering.stackexchange.com/questions/215737/how-python-random-shuffle-works">Fisher-Yates shuffle and runs in O(n) time</a>. Random numbers for this shuffle are generated using a <a class="reference external" href="https://en.wikipedia.org/wiki/Wichmann%E2%80%93Hill">Wichman-Hill random number generator</a>. Using this list, the first person in the list is assigned to give a gift to the last person in the list, and everyone else is assigned to give a gift to the person before them. Note that with this implementation, there are no closed cycles of gift giving, i.e. a scenario where A gives to B and B gives to A will never occur in a list with more than 2 names.</p>
 <p>After the list of names is shuffled, the program will perform a check to ensure that no invalid pairings have been made, ex. someone is paired with someone on their exclude list. If an invalid paring is made, the shuffle is performed again. This process is repeated until a valid sort is performed.</p>
 <p>Note that this method could lead to long program runtimes if given a large list of names with many inter-connected exclusions, and would also run infinitely if a scenario was given in which no valid set of parings could be made. To prevent an infinite run time, a maximum number of iterations is currently set by default (10000) and can be overridden by modifying the program. However, the program should suit most scenarios. Runtime for a group of ~15 people has always completed seemingly instantaneously during the work of this algorithm, so at this time there are no plans to improve it.</p>
-</div>
-<div class="section" id="sending-emails">
+</section>
+<section id="sending-emails">
 <h3>Sending Emails<a class="headerlink" href="#sending-emails" title="Permalink to this headline">¶</a></h3>
 <p>Emails are currently sent through the Gmail API. Method for sending via SMTP and SES also exist.</p>
-<div class="section" id="gmail-api">
+<section id="gmail-api">
 <h4>Gmail API<a class="headerlink" href="#gmail-api" title="Permalink to this headline">¶</a></h4>
 <p>Configuration Steps:</p>
 <ul class="simple">
 <li><p>Create a project: <a class="reference external" href="https://developers.google.com/workspace/guides/create-project">https://developers.google.com/workspace/guides/create-project</a></p></li>
 <li><p>Enable the Gmail API</p></li>
 <li><p>Create an OAuth credential token with <a class="reference external" href="http://localhost:52381/">http://localhost:52381/</a> as an authorized redirect URI</p></li>
-<li><p>Download the credentials token and save to or override cred_path in GmailApiSender</p></li>
-<li><p>On first run, authenticate via browser</p></li>
-<li><p>Subsequent runs should run seamlessly</p></li>
+<li><p>Download the credentials token and set the filepath to the environment variable <code class="docutils literal notranslate"><span class="pre">CRED_PATH</span></code></p>
+<ul>
+<li><p>Can be found at <a class="reference external" href="https://console.cloud.google.com/apis/credentials?project=">https://console.cloud.google.com/apis/credentials?project=</a><span class="raw-html-m2r"><project name></span></p></li>
 </ul>
-</div>
-<div class="section" id="gmail-smtp">
+</li>
+<li><p>Set an environment variable <code class="docutils literal notranslate"><span class="pre">TOKEN_PATH</span></code> to a filepath where the Gmail API can save the token</p>
+<ul>
+<li><p>Preferably in the same directory as <code class="docutils literal notranslate"><span class="pre">CRED_PATH</span></code></p></li>
+</ul>
+</li>
+<li><p>Run the script and authenticate via browser when prompted</p></li>
+<li><p>Remove the file at <code class="docutils literal notranslate"><span class="pre">TOKEN_PATH</span></code> before executing subsequent runs</p></li>
+</ul>
+</section>
+<section id="gmail-smtp">
 <h4>Gmail SMTP<a class="headerlink" href="#gmail-smtp" title="Permalink to this headline">¶</a></h4>
 <p>Emails sent through Gmail are currently sent through the Simple Mail Transfer Protocol using Python’s smtplib. Since
 SMTP is open to man-in-the-middle attacks, common email servers, such as gmail, will fail to send an email using this script by default because
@@ -197,14 +207,14 @@ it poses a security risk. In Gmail, you can work around this by logging into you
 script runs. The current method of running this script using Gmail has been to allow less secure apps via Gmail, run the script, and
 then continue blocking less secure apps, which limits the time exposed to less secure apps to a minimum. To avoid this,
 it is recommended to use Amazon SES.</p>
-</div>
-<div class="section" id="amazon-ses">
+</section>
+<section id="amazon-ses">
 <h4>Amazon SES<a class="headerlink" href="#amazon-ses" title="Permalink to this headline">¶</a></h4>
 <p>Not extensively tested, as less efficient and more difficult to configure than the Gmail API.</p>
-</div>
-</div>
-</div>
-<div class="section" id="proposed-updates">
+</section>
+</section>
+</section>
+<section id="proposed-updates">
 <h2>Proposed Updates<a class="headerlink" href="#proposed-updates" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>A better algorithm</p>
@@ -214,8 +224,8 @@ it is recommended to use Amazon SES.</p>
 </li>
 <li><p>React frontend</p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>

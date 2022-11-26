@@ -75,7 +75,7 @@ Note that this method could lead to long program runtimes if given a large list 
 
 ### Sending Emails
 
-Emails are currently sent through the Gmail API. Method for sending via SMTP and SES also exist.
+Emails are currently sent through the Gmail API. Methods for sending via SMTP and SES also exist.
 
 #### Gmail API
 

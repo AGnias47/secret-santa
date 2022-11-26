@@ -84,9 +84,12 @@ Configuration Steps:
 * Create a project: https://developers.google.com/workspace/guides/create-project
 * Enable the Gmail API
 * Create an OAuth credential token with http://localhost:52381/ as an authorized redirect URI
-* Download the credentials token and save to or override cred_path in GmailApiSender
-* On first run, authenticate via browser
-* Subsequent runs should run seamlessly
+* Download the credentials token and set the filepath to the environment variable `CRED_PATH`
+  * Can be found at https://console.cloud.google.com/apis/credentials?project=<project name>
+* Set an environment variable `TOKEN_PATH` to a filepath where the Gmail API can save the token
+  * Preferably in the same directory as `CRED_PATH`
+* Run the script and authenticate via browser when prompted
+* Remove the file at `TOKEN_PATH` before executing subsequent runs
 
 #### Gmail SMTP
 

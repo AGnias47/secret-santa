@@ -1,4 +1,10 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
+
+import argparse
+from getpass import getpass
+from os import getenv
+import pathlib
+import re as regex
 
 from secret_santa.Participant import create_participant_hash
 from secret_santa.selections import make_selections
@@ -7,10 +13,6 @@ from send_email.gmail_api import GmailApiSender
 from send_email.aws_ses import AwsSesSender
 from send_email.gmail_smtp import GmailSMTPSender
 
-import argparse
-from getpass import getpass
-import pathlib
-import re as regex
 
 """
 Informs Secret Santa participants of their Secret Santa via email
@@ -53,7 +55,7 @@ def process_commandline_parameters():
         "-i",
         "--invitation",
         help="Sends an invitation email instead of pairing participants for the exchange",
-        action="store_true"
+        action="store_true",
     )
     args = parser.parse_args()
     if args.email:
@@ -62,7 +64,8 @@ def process_commandline_parameters():
         email = input("Sender's email: ").strip()
     if args.method:
         if args.method.casefold() == "gmailapi".casefold():
-            sender_object = GmailApiSender(email)
+            cred_path, token_path = get_gmail_api_env_vars()
+            sender_object = GmailApiSender(email, cred_path, token_path)
         elif args.method.casefold() == "ses".casefold():
             sender_object = AwsSesSender(email)
         elif args.method.casefold() == "smtp".casefold():
@@ -76,7 +79,8 @@ def process_commandline_parameters():
                 "Invalid send method specified; must be one of gmailapi, ses, or smtp"
             )
     else:
-        sender_object = GmailApiSender(email)
+        cred_path, token_path = get_gmail_api_env_vars()
+        sender_object = GmailApiSender(email, cred_path, token_path)
     if args.names:
         names_filename = args.names
     else:
@@ -115,7 +119,35 @@ def process_commandline_parameters():
             exchange_date_string = None
     else:
         exchange_date_string = None
-    return sender_object, names_filename, exceptions_filename, exchange_date_string, args.invitation
+    return (
+        sender_object,
+        names_filename,
+        exceptions_filename,
+        exchange_date_string,
+        args.invitation,
+    )
+
+
+def get_gmail_api_env_vars():
+    """
+    Checks for necessary environment variables for the Gmail API, and raises an error if not present
+
+    Returns
+    -------
+    str, str
+        Path to Google Project credentials, path to save token
+    """
+    errors = None
+    if not (cred_path := getenv("CRED_PATH")):
+        errors = "CRED_PATH variable is not set"
+    if not (token_path := getenv("TOKEN_PATH")):
+        if errors:
+            errors = "CRED_PATH and TOKEN_PATH variables are not set"
+        else:
+            errors = "TOKEN_PATH variable is not set"
+    if errors:
+        raise RuntimeError(errors)
+    return cred_path, token_path
 
 
 if __name__ == "__main__":
@@ -124,7 +156,7 @@ if __name__ == "__main__":
         names_fname,
         exceptions_fname,
         exchange_date,
-        invitation
+        invitation,
     ) = process_commandline_parameters()
     participants = create_participant_hash(names_fname, exceptions_fname)
     if invitation:

@@ -113,7 +113,7 @@ def process_commandline_parameters():
         ).strip()
         if regex.match("[Yy]", confirm_exchange_date):
             exchange_date_string = input(
-                "Specify date however you would like integration_test displayed: "
+                "Specify the date however you would like it displayed: "
             ).strip()
         else:
             exchange_date_string = None

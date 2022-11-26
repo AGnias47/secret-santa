@@ -36,12 +36,12 @@ def compose_invitation_body(participant):
         message_body += f"- People you do not want: {exceptions}\n"
 
     message_body += """
-    Also, please let me know if you will be in the greater Philadelphia area over Christmas break and are interested in 
+    Also, please let me know if you will be in the area over Christmas break and are interested in 
     doing an in-person gift exchange. If so, do any dates in the last 2 weeks of December work well / not work at all?
     
     Happy Holidays, and hope to see you soon!
     
-    Santa (Andy)
+    Santa
     """
     return message_body
 

@@ -21,8 +21,8 @@ class GmailApiSender:
     def __init__(
         self,
         sender_email,
-        cred_path="/home/andy/secure/secret_santa_credentials.json",
-        token_path="/home/andy/secure/secret_santa_token.json",
+        cred_path,
+        token_path,
     ):
         """
         Initialize class and authenticate with the Gmail API. Requires pre-existing credentials file and enablement of

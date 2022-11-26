@@ -1,11 +1,54 @@
 #!/usr/bin/env python3
 
+from datetime import datetime
+
 """
 Module for sending emails to Secret Santa participants. Controls who get whom.
 """
 
 
-def email_participants(sender, participants, order, exchange_date=None, subject="Secret Santa Assignment"):
+def invite_participants(sender, participants):
+    sent_emails_boolean_list = list()
+    for _, p in participants.items():
+        message_body = compose_invitation_body(p)
+        status = sender.send_email(
+            p.email, f"Secret Santa {datetime.now().year}!", message_body
+        )
+        sent_emails_boolean_list.append(status)
+    return sent_emails_boolean_list
+
+
+def compose_invitation_body(participant):
+    address = participant.address or "I don't have your address! Ahh!"
+    if participant.exceptions:
+        exceptions = ", ".join([p.name for p in participant.exceptions])
+    else:
+        exceptions = None
+    message_body = f"""
+    Hello!
+    
+    You have been invited to participate in this year's Secret Santa! Please let me know if you are interested in 
+    participating, and if the information provided below is correct:
+    
+    - Address: {address}
+    """
+    if exceptions:
+        message_body += f"- People you do not want: {exceptions}\n"
+
+    message_body += """
+    Also, please let me know if you will be in the area over Christmas break and are interested in 
+    doing an in-person gift exchange. If so, do any dates in the last 2 weeks of December work well / not work at all?
+    
+    Happy Holidays, and hope to see you soon!
+    
+    Santa
+    """
+    return message_body
+
+
+def email_participants(
+    sender, participants, order, exchange_date=None, subject="Secret Santa Assignment"
+):
     """
     Informs participants who they have for Secret Santa via email
 

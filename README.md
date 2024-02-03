@@ -104,8 +104,3 @@ it is recommended to use Amazon SES.
 
 Not extensively tested, as less efficient and more difficult to configure than the Gmail API.
 
-## Proposed Updates
-
-* A better algorithm
-    * Will likely utilize perfect matching in a graph. [Paths, Trees, and Flowers](https://math.nist.gov/~JBernal/p_t_f.pdf) was recommended in a Stackoverflow post so I'll likely look into that
-* React frontend
